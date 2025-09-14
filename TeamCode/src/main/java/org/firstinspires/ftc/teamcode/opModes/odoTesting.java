@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opModes;
 
 
 
+import static org.firstinspires.ftc.teamcode.other.PosGlobals.moveOdoTestRot;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.moveOdoTestY;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.moveOdoTestX;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.startingPosRight;
@@ -43,7 +44,8 @@ public class odoTesting extends AutoBase {
 
                 new DriveToPointCommand(driveSubsystem, moveOdoTestX ,3, 5).withTimeout(2000),
                 new WaitCommand(500),
-                new DriveToPointCommand(driveSubsystem, moveOdoTestY ,3, 5).withTimeout(2000)
+                new DriveToPointCommand(driveSubsystem, moveOdoTestY ,3, 5).withTimeout(2000),
+                new DriveToPointCommand(driveSubsystem, moveOdoTestRot, 3, 5)
 
                 //wait
 

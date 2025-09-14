@@ -158,12 +158,12 @@ public class Globals {
     public static double armCompleteRetractY = 3.5;
 
 //drive to point
-    public static double translationKP = 0.01;
+    public static double translationKP = 0.007;
     public static final double translationKPprecise = 0.015;
     public static final double translationKPfast = 0.02*1.2;
 
     public static double translationKI = 0.0;
-    public static double translationKD = 0.01;
+    public static double translationKD = 0.2;
 //    public static double translationKD = 0.001;
     public static double translationKF = -0.06; //static friction coefficient, overall robot vector not individual module so may not work as expected
 

@@ -17,6 +17,9 @@ public class PosGlobals {
     public static Pose2d startingPosTest = new Pose2d(63, -76, Rotation2d.fromDegrees(0));
     public static Pose2d moveOdoTestX = new Pose2d(73, -76, Rotation2d.fromDegrees(0));
     public static Pose2d moveOdoTestY = new Pose2d(73, -66, Rotation2d.fromDegrees(0));
+    public static Pose2d moveOdoTestRot = new Pose2d(73, -66, Rotation2d.fromDegrees(90));
+
+
 
 
 
