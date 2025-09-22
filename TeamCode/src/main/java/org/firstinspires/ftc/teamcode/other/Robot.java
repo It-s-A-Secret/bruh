@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subSystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subSystems.shooterSubsystem;
 
 
 @Config
@@ -43,6 +44,7 @@ public abstract class Robot extends CommandOpMode {
 
     //hardware
     public MotorEx BL, BR, FL, FR, armLeft, armRight;
+    public DcMotor shooter;
 //    public DcMotor slideLeft, slideRight;
 //    public MotorGroup slide, arm;
 //    public Servo diffyLeft, diffyRight, claw, nautilus, defensePad, secondaryArmLeft, secondaryArmRight, secondaryYawServo, ptoServo, specClaw, specArm1, specArm2;
@@ -56,6 +58,7 @@ public abstract class Robot extends CommandOpMode {
 
     //subsystems
     public DriveSubsystem driveSubsystem;
+    public shooterSubsystem shooterSubsystem;
 //    public ArmSubsystem armSubsystem;
 //    public SecondaryArmSubsystem secondaryArmSubsystem;
 //    public IntakeSubsystem intakeSubsystem;
@@ -194,6 +197,11 @@ public abstract class Robot extends CommandOpMode {
 
         driveSubsystem = new DriveSubsystem(FR, FL, BR, BL, mecanumDrive, telemetry, pinpoint);
         register(driveSubsystem);
+
+
+        shooter =  hardwareMap.get(DcMotor.class, "shooter");
+        shooterSubsystem = new shooterSubsystem(shooter, telemetry);
+        register(shooterSubsystem);
 
         //arm
 //        armLeft = new MotorEx(hardwareMap, "armLeft");
