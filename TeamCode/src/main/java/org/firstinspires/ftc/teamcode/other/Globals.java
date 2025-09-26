@@ -81,7 +81,6 @@ public class Globals {
     public static double armHomeX = 7.5;
     public static double armHomeY = 7;
     //arm fold
-    public static double slideInX = hIntakeSubsystem.slideRetractMin;
 //    public static double armFoldY = 6.0;
     //arm back - not really back anymmore, just the spec scoring position
     public static double armBackX = 13.0;

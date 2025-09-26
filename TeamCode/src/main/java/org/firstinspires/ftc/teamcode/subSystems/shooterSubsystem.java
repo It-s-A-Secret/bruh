@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.subSystems;
 //import static org.firstinspires.ftc.teamcode.other.Globals.armFoldY;
 //import static org.firstinspires.ftc.teamcode.other.Globals.manualArm;
 import static org.firstinspires.ftc.teamcode.other.Globals.manualSlides;
-import static org.firstinspires.ftc.teamcode.other.Globals.slideInX;
 import static org.firstinspires.ftc.teamcode.other.Robot.voltageCompensation;
 
 import android.util.Log;
@@ -31,7 +30,7 @@ import java.util.LinkedList;
 @Config
 public class shooterSubsystem extends SubsystemBase {
 
-    private DcMotor shooter;
+    private DcMotor shooter, shooter2;
     private MotorGroup arm;
     private Servo endStop;
     private AnalogInput armEncoder;
@@ -48,20 +47,25 @@ public class shooterSubsystem extends SubsystemBase {
     Command lastCommand;
 
     //constructor
-    public shooterSubsystem(DcMotor shooter, Telemetry telemetry) {
+    public shooterSubsystem(DcMotor shooter, DcMotor shooter2, Telemetry telemetry) {
         this.shooter = shooter;
+        this.shooter2 = shooter2;
         this.telemetry = telemetry;
 
 
 
+
     }
 
-    public void shoot(){
-        shooter.setPower(1);
+    public void shoot(double power){
+        shooter.setPower(power);
+        shooter2.setPower(power);
     }
+
 
     public void stop(){
         shooter.setPower(0);
+        shooter2.setPower(0);
     }
 
 

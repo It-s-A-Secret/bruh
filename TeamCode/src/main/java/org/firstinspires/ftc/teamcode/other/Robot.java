@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subSystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subSystems.hIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subSystems.shooterSubsystem;
 
 
@@ -44,7 +45,8 @@ public abstract class Robot extends CommandOpMode {
 
     //hardware
     public MotorEx BL, BR, FL, FR, armLeft, armRight;
-    public DcMotor shooter;
+    public DcMotor shooter, shooter2;
+    public DcMotor intake, stopper;
 //    public DcMotor slideLeft, slideRight;
 //    public MotorGroup slide, arm;
 //    public Servo diffyLeft, diffyRight, claw, nautilus, defensePad, secondaryArmLeft, secondaryArmRight, secondaryYawServo, ptoServo, specClaw, specArm1, specArm2;
@@ -59,6 +61,7 @@ public abstract class Robot extends CommandOpMode {
     //subsystems
     public DriveSubsystem driveSubsystem;
     public shooterSubsystem shooterSubsystem;
+    public hIntakeSubsystem hIntakeSubsystem;
 //    public ArmSubsystem armSubsystem;
 //    public SecondaryArmSubsystem secondaryArmSubsystem;
 //    public IntakeSubsystem intakeSubsystem;
@@ -200,8 +203,14 @@ public abstract class Robot extends CommandOpMode {
 
 
         shooter =  hardwareMap.get(DcMotor.class, "shooter");
-        shooterSubsystem = new shooterSubsystem(shooter, telemetry);
+        shooter2 = hardwareMap.get(DcMotor.class, "shooter2");
+        shooterSubsystem = new shooterSubsystem(shooter, shooter2,telemetry);
         register(shooterSubsystem);
+
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        stopper = hardwareMap.get(DcMotor.class, "stopper");
+        hIntakeSubsystem = new hIntakeSubsystem(intake, stopper, telemetry);
+        register(hIntakeSubsystem);
 
         //arm
 //        armLeft = new MotorEx(hardwareMap, "armLeft");
