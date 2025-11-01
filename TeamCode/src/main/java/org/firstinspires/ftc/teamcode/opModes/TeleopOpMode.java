@@ -16,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.other.Globals.rollIntakeWall;
 import static org.firstinspires.ftc.teamcode.other.Globals.rollWhenBasket;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -38,7 +39,7 @@ import org.firstinspires.ftc.teamcode.other.Robot;
 
 
 
-
+@Config
 @TeleOp(name="teleOpFunnyTest")
 public class TeleopOpMode extends Robot {
 
@@ -51,6 +52,8 @@ public class TeleopOpMode extends Robot {
     //teleop mode
     public static boolean teleopSpec = false;
     public static boolean parallelizing = false;
+
+    public static double rpm = 3900;
 
 
     Gamepad currentGamepad1 = new Gamepad();
@@ -141,17 +144,31 @@ public class TeleopOpMode extends Robot {
 //        dDown1.whenPressed(new FlipSample(armSubsystem, intakeSubsystem, secondaryArmSubsystem));
         //retract after intaking and basket (spec mode)
 
-        dUp1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 5, -1));
+        triangle1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 3900));
+        cross1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 3250));
 
-        dRight1.whenActive(new ParallelCommandGroup(
+
+        circle1.whenActive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeOn()),
                 new InstantCommand(()-> hIntakeSubsystem.stopperStop())
         ));
-        dRight1.whenInactive(new ParallelCommandGroup(
+        circle1.whenInactive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
                 new InstantCommand(()-> hIntakeSubsystem.stopperOff())
         ));
-        //wall intake
+        square1.whenActive(new ParallelCommandGroup(
+                new InstantCommand(()-> hIntakeSubsystem.intakeReverse()),
+                new InstantCommand(()-> hIntakeSubsystem.stopperStop())
+        ));
+        square1.whenInactive(new ParallelCommandGroup(
+                new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
+                new InstantCommand(()-> hIntakeSubsystem.stopperOff())
+        ));
+
+        dUp1.whenPressed(new InstantCommand(() -> hIntakeSubsystem.gateOpen()));
+        dDown1.whenPressed(new InstantCommand(() -> hIntakeSubsystem.gateClose()));
+
+                //wall intake
 //        tRight1.toggleWhenActive(new teleopSpecScore(driveSubsystem,armSubsystem,intakeSubsystem));
 //        tLeft1.whenActive(new VisionToSampleInterpolate(driveSubsystem, visionSubsystem, armSubsystem, intakeSubsystem, secondaryArmSubsystem, false, ()->{return false;},m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
 //        tLeft1.toggleWhenActive(new TeleDriveHeadingLocked(driveSubsystem, m_driver));
@@ -243,7 +260,6 @@ public class TeleopOpMode extends Robot {
 //            schedule(new ArmManualCommand(armSubsystem, m_driverOp::getRightY));
 //        }
 
-        telemetry.addData("gamepad2 leftX", m_driverOp.getLeftX());
 
     }
 

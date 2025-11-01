@@ -33,6 +33,7 @@ public class hIntakeSubsystem extends SubsystemBase {
 
     private Telemetry telemetry;
     private DcMotor intake, stopper;
+    private Servo gate;
 
 
 
@@ -45,11 +46,12 @@ public class hIntakeSubsystem extends SubsystemBase {
     Command lastCommand;
 
     //constructor
-    public hIntakeSubsystem(DcMotor intake, DcMotor stopper, Telemetry telemetry) {
+    public hIntakeSubsystem(DcMotor intake, DcMotor stopper, Servo gate, Telemetry telemetry) {
 
         this.telemetry = telemetry;
         this.stopper = stopper;
         this.intake = intake;
+        this.gate = gate;
 
 
 //TODO: tune the slide gain scheduling
@@ -85,6 +87,9 @@ public class hIntakeSubsystem extends SubsystemBase {
     public void intakeOff(){
         intake.setPower(0);
     }
+    public void intakeReverse(){
+        intake.setPower(-1);
+    }
 
     public void stopperStop(){
         stopper.setPower(1);
@@ -94,6 +99,13 @@ public class hIntakeSubsystem extends SubsystemBase {
     }
     public void stopperOff(){
         stopper.setPower(0);
+    }
+
+    public void gateClose(){
+        gate.setPosition(0.25);
+    }
+    public void gateOpen(){
+        gate.setPosition(0.6);
     }
 
 
@@ -166,7 +178,7 @@ public class hIntakeSubsystem extends SubsystemBase {
         if(lastCommand==null){
             lastCommand=new InstantCommand();
         }
-        telemetry.addData("armSubsystemLastCommand", lastCommand != null ? lastCommand.getName() : "None");
+        telemetry.addData("hIntakeSubsystemLastCommand", lastCommand != null ? lastCommand.getName() : "None");
 
 
 

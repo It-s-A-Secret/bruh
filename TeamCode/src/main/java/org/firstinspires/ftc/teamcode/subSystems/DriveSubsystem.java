@@ -145,7 +145,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         //actually moving
-        mecanumDrive.driveFieldCentric(strafeSpeed * power, forwardSpeed * power, turnSpeed * power, currentPos.getRotation().getDegrees());
+        mecanumDrive.driveRobotCentric(-strafeSpeed * power, forwardSpeed * power, -turnSpeed * power, true);//-currentPos.getRotation().getDegrees()
 
         //read pinpoint
         readPinpoint();
@@ -304,9 +304,9 @@ public class DriveSubsystem extends SubsystemBase {
         telemetry.addData("vectorTheta", vectorTheta);
 
         //breaking vector into speed values + pid
-        strafeVelocity = lateralMutliplier * (Math.cos (Math.toRadians(vectorTheta)) * correctedVectorMagnitude);
+        strafeVelocity = -lateralMutliplier * (Math.cos (Math.toRadians(vectorTheta)) * correctedVectorMagnitude);
         forwardVelocity = (Math.sin (Math.toRadians(vectorTheta)) * correctedVectorMagnitude);
-        turnVelocity = -Math.sqrt(Math.abs(headingCalculation)) * Math.signum(headingCalculation);
+        turnVelocity = Math.sqrt(Math.abs(headingCalculation)) * Math.signum(headingCalculation);
 
         //testing
         telemetry.addData("strafeSpeed", strafeVelocity);
@@ -314,7 +314,7 @@ public class DriveSubsystem extends SubsystemBase {
         telemetry.addData("turnSpeed", turnVelocity);
 
         //actually driving
-        mecanumDrive.driveFieldCentric(strafeVelocity, forwardVelocity, turnVelocity, getHeadingInDegrees(currentPos));
+        mecanumDrive.driveFieldCentric(strafeVelocity, forwardVelocity, turnVelocity, -getHeadingInDegrees(currentPos));
     }
 
     public void readPinpoint() {

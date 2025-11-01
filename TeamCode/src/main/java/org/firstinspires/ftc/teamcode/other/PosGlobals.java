@@ -24,6 +24,59 @@ public class PosGlobals {
 
 
     public static Pose2d startingPosLeft = new Pose2d(startLeftX, startLeftY, Rotation2d.fromDegrees(0));
+    public static Pose2d startingRedBack = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+
+    public static Pose2d startingRedFront = new Pose2d(118, 156, Rotation2d.fromDegrees(130));
+
+    public static Pose2d redShootFront = new Pose2d(-7, 16, Rotation2d.fromDegrees(-45));
+
+
+    public static Pose2d redShootBack = new Pose2d(-17, 42, Rotation2d.fromDegrees(-22));
+    public static Pose2d redFirstRowReady = new Pose2d(9, -108, Rotation2d.fromDegrees(-90));
+    public static Pose2d redFirstRowReadyTwo = new Pose2d(-9, 86, Rotation2d.fromDegrees(-90));
+
+    public static Pose2d redFirstRowIntake = new Pose2d(136, -108, Rotation2d.fromDegrees(-90));
+    public static Pose2d redFirstRowIntakeTwo = new Pose2d(113, 88, Rotation2d.fromDegrees(-90));
+
+    public static Pose2d redSecondRowReady = new Pose2d(9, -47, Rotation2d.fromDegrees(-90));
+    public static Pose2d redSecondRowReadyTwo = new Pose2d(-9, 156, Rotation2d.fromDegrees(-90));
+
+    public static Pose2d redSecondRowIntake = new Pose2d(120, -47, Rotation2d.fromDegrees(-90));
+    public static Pose2d redSecondRowIntakeTwo = new Pose2d(113, 156, Rotation2d.fromDegrees(-90));
+
+
+    public static Pose2d redThirdRowReady = new Pose2d(9, 26, Rotation2d.fromDegrees(-90));
+    public static Pose2d redThirdRowIntake = new Pose2d(95, 26, Rotation2d.fromDegrees(-90));
+
+
+    public static Pose2d startingBlueBack = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+    public static Pose2d blueShootBack = new Pose2d(17, 42, Rotation2d.fromDegrees(20));
+
+    public static Pose2d startingBlueFront = new Pose2d(-118, 156, Rotation2d.fromDegrees(-130));
+
+    public static Pose2d blueShootFront = new Pose2d(9, 14, Rotation2d.fromDegrees(43));
+
+
+    public static Pose2d blueFirstRowReady = new Pose2d(-9, -108, Rotation2d.fromDegrees(90));
+    public static Pose2d blueFirstRowReadyTwo = new Pose2d(9, 86, Rotation2d.fromDegrees(90));
+
+    public static Pose2d blueFirstRowIntake = new Pose2d(-120, -108, Rotation2d.fromDegrees(90));
+    public static Pose2d blueFirstRowIntakeTwo = new Pose2d(-113, 88, Rotation2d.fromDegrees(90));
+
+    public static Pose2d blueSecondRowReady = new Pose2d(-9, -44, Rotation2d.fromDegrees(90));
+    public static Pose2d blueSecondRowReadyTwo = new Pose2d(9, 156, Rotation2d.fromDegrees(90));
+
+    public static Pose2d blueSecondRowIntake = new Pose2d(-120, -44, Rotation2d.fromDegrees(90));
+    public static Pose2d blueSecondRowIntakeTwo = new Pose2d(-113, 156, Rotation2d.fromDegrees(90));
+
+
+    public static Pose2d blueThirdRowReady = new Pose2d(-9, 26, Rotation2d.fromDegrees(90));
+    public static Pose2d blueThirdRowIntake = new Pose2d(-95, 26, Rotation2d.fromDegrees(90));
+
+
+
+
+
     public static Pose2d startingPosLeft2 = new Pose2d(startLeftX - (3+7/16) - 23.75, startLeftY, Rotation2d.fromDegrees(0));
 
 

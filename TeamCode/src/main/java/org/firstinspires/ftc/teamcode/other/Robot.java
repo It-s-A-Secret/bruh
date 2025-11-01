@@ -45,8 +45,9 @@ public abstract class Robot extends CommandOpMode {
 
     //hardware
     public MotorEx BL, BR, FL, FR, armLeft, armRight;
-    public DcMotor shooter, shooter2;
+    public MotorEx shooter, shooter2;
     public DcMotor intake, stopper;
+    public Servo gate;
 //    public DcMotor slideLeft, slideRight;
 //    public MotorGroup slide, arm;
 //    public Servo diffyLeft, diffyRight, claw, nautilus, defensePad, secondaryArmLeft, secondaryArmRight, secondaryYawServo, ptoServo, specClaw, specArm1, specArm2;
@@ -193,8 +194,8 @@ public abstract class Robot extends CommandOpMode {
         gyro.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
+                                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                                RevHubOrientationOnRobot.UsbFacingDirection.UP)
                 )
         );
 
@@ -202,14 +203,19 @@ public abstract class Robot extends CommandOpMode {
         register(driveSubsystem);
 
 
-        shooter =  hardwareMap.get(DcMotor.class, "shooter");
-        shooter2 = hardwareMap.get(DcMotor.class, "shooter2");
+        shooter = new MotorEx(hardwareMap, "shooter");
+        shooter2 = new MotorEx(hardwareMap, "shooter2");
+        shooter.setRunMode(MotorEx.RunMode.RawPower);
+        shooter2.setRunMode(MotorEx.RunMode.RawPower);
+        shooter.setInverted(true);
+        shooter2.setInverted(true);
         shooterSubsystem = new shooterSubsystem(shooter, shooter2,telemetry);
         register(shooterSubsystem);
 
         intake = hardwareMap.get(DcMotor.class, "intake");
         stopper = hardwareMap.get(DcMotor.class, "stopper");
-        hIntakeSubsystem = new hIntakeSubsystem(intake, stopper, telemetry);
+        gate = hardwareMap.get(Servo.class, "gate");
+        hIntakeSubsystem = new hIntakeSubsystem(intake, stopper, gate, telemetry);
         register(hIntakeSubsystem);
 
         //arm
@@ -378,7 +384,7 @@ public abstract class Robot extends CommandOpMode {
          */
 
        //pinpoint.setOffsets(73.66, 162.56); //these are tuned for 3110-0002-0001 Product Insight #1
-        pinpoint.setOffsets(-35,-30);
+        pinpoint.setOffsets(-13,5);
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
         the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
@@ -396,7 +402,7 @@ public abstract class Robot extends CommandOpMode {
         increase when you move the robot forward. And the Y (strafe) pod should increase when
         you move the robot to the left.
          */
-       pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+       pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
 
        //set yaw scalar

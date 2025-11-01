@@ -3,12 +3,6 @@ package org.firstinspires.ftc.teamcode.subSystems;
 //import static org.firstinspires.ftc.teamcode.other.Globals.armFoldX;
 //import static org.firstinspires.ftc.teamcode.other.Globals.armFoldY;
 //import static org.firstinspires.ftc.teamcode.other.Globals.manualArm;
-import static org.firstinspires.ftc.teamcode.other.Globals.manualSlides;
-import static org.firstinspires.ftc.teamcode.other.Robot.voltageCompensation;
-
-import android.util.Log;
-
-import androidx.core.math.MathUtils;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
@@ -20,25 +14,31 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.arcrobotics.ftclib.util.InterpLUT;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import java.util.LinkedList;
-
 @Config
 public class shooterSubsystem extends SubsystemBase {
 
-    private DcMotor shooter, shooter2;
+    private MotorEx shooter, shooter2;
     private MotorGroup arm;
     private Servo endStop;
     private AnalogInput armEncoder;
     private Telemetry telemetry;
 
+    public static double kPWheel = 0.003, kIWheel = 0.00, kDWheel = 0.000025;
+    public static double kFWheel = 0.000265;
+    private PIDController velocityController;
+    private double targetRPM = 0;
+    private double currentRpm = 0;
+    private boolean wheelOn = true;
+    private double rpmError =0;
 
+    private static final int TICKS_PER_REV = 28;
 
-    //nautilus
+    InterpLUT rpmLUT = new InterpLUT();
+
 
 
 
@@ -47,25 +47,34 @@ public class shooterSubsystem extends SubsystemBase {
     Command lastCommand;
 
     //constructor
-    public shooterSubsystem(DcMotor shooter, DcMotor shooter2, Telemetry telemetry) {
+    public shooterSubsystem(MotorEx shooter, MotorEx shooter2, Telemetry telemetry) {
         this.shooter = shooter;
         this.shooter2 = shooter2;
         this.telemetry = telemetry;
+        shooter.resetEncoder();
+        shooter2.resetEncoder();
 
+
+        velocityController = new PIDController(kPWheel, kIWheel, kDWheel);
 
 
 
     }
 
-    public void shoot(double power){
-        shooter.setPower(power);
-        shooter2.setPower(power);
+
+    public void setTargetRPM(double rpm){
+        wheelOn = true;
+        targetRPM = rpm;
+    }
+    public double getCurrentRPM(){
+        return currentRpm = shooter.getVelocity() * 60.0 / TICKS_PER_REV;
+    }
+    public void stop() {
+        wheelOn = false;
     }
 
-
-    public void stop(){
-        shooter.setPower(0);
-        shooter2.setPower(0);
+    public double getRPMError(){
+        return rpmError;
     }
 
 
@@ -101,7 +110,30 @@ public class shooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        velocityController.setPID(kPWheel, kIWheel, kDWheel);
         //read
+        double currentRPM = getCurrentRPM();
+        double ff = kFWheel * targetRPM;
+
+        double pid = velocityController.calculate(currentRPM, targetRPM);
+
+        double power = ff + pid;
+        rpmError = currentRPM-targetRPM;
+
+        power = Math.max(-1, Math.min(1, power));
+        if(wheelOn == true) {
+            shooter.set(power);
+            shooter2.set(power);
+        }else{
+            shooter.set(0);
+            shooter2.set(0);
+            targetRPM = 0;
+        }
+
+        telemetry.addData("TargetRPM", targetRPM);
+        telemetry.addData("CurrentRPM", currentRPM);
+        telemetry.addData("Power", power);
+
 
 
 

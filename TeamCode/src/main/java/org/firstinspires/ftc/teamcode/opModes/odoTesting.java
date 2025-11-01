@@ -34,7 +34,7 @@ public class odoTesting extends AutoBase {
 
 
         schedule(new SequentialCommandGroup(
-                new InstantCommand(() -> driveSubsystem.setStartingPos(startingPosTest)),
+                new InstantCommand(() -> driveSubsystem.setStartingPos(new Pose2d(0, 0,Rotation2d.fromDegrees(0)))),
                 //wait
                 new WaitCommand(6),
 
@@ -42,10 +42,8 @@ public class odoTesting extends AutoBase {
                 new InstantCommand(() -> driveSubsystem.driveToPoint(startingPosTest)),
 
 
-                new DriveToPointCommand(driveSubsystem, moveOdoTestX ,3, 5).withTimeout(2000),
-                new WaitCommand(500),
-                new DriveToPointCommand(driveSubsystem, moveOdoTestY ,3, 5).withTimeout(2000),
-                new DriveToPointCommand(driveSubsystem, moveOdoTestRot, 3, 5)
+                new DriveToPointCommand(driveSubsystem, new Pose2d(0, 0,Rotation2d.fromDegrees(90)),3, 5).withTimeout(2000)
+
 
                 //wait
 
