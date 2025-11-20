@@ -144,8 +144,8 @@ public class TeleopOpMode extends Robot {
 //        dDown1.whenPressed(new FlipSample(armSubsystem, intakeSubsystem, secondaryArmSubsystem));
         //retract after intaking and basket (spec mode)
 
-        triangle1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 3900));
-        cross1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 3250));
+        triangle1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2700));
+        cross1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2325));
 
 
         circle1.whenActive(new ParallelCommandGroup(
