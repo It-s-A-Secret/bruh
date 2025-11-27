@@ -53,7 +53,9 @@ public class bruhBlueBackAuto extends Robot {
                 new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2),
                 new WaitCommand(500),
                 //shoot
-                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,3900),
+                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,2750),
+                new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
+
                 new WaitCommand(500),
                 //getting first row
               //  new DriveToPointCommand(driveSubsystem, redFirstRowReady, 5, 5),
@@ -64,21 +66,24 @@ public class bruhBlueBackAuto extends Robot {
                 new InstantCommand(() -> hIntakeSubsystem.gateClose()),
 
                 //new DriveToPointCommand(driveSubsystem, redFirstRowIntake, 5, 5),
-                new DriveToPointCommand(driveSubsystem, blueFirstRowIntakeTwo, 5, 5),
+                new DriveToPointCommand(driveSubsystem, blueFirstRowIntakeTwo, 5, 5).withTimeout(1500),
 
                 new WaitCommand(1000),
-                new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(() -> hIntakeSubsystem.gateOpen()),
+
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> shooterSubsystem.setTargetRPM(3900))
+                            new InstantCommand(() -> shooterSubsystem.setTargetRPM(2750))
                         ),
                 //shooting first row
                     new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2)
                 ),
+                new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
+                new InstantCommand(() -> hIntakeSubsystem.gateOpen()),
                 new WaitCommand(500),
-                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,3900),
+                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,2750),
+                new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
+
                 new WaitCommand(500),
                 //intake second row
                 //new DriveToPointCommand(driveSubsystem, redSecondRowReady, 5, 5),
@@ -88,23 +93,24 @@ public class bruhBlueBackAuto extends Robot {
                 new InstantCommand(() -> hIntakeSubsystem.gateClose()),
 
                 //new DriveToPointCommand(driveSubsystem, redSecondRowIntake, 5, 5),
-                new DriveToPointCommand(driveSubsystem, blueSecondRowIntakeTwo, 5, 5),
+                new DriveToPointCommand(driveSubsystem, blueSecondRowIntakeTwo, 5, 5).withTimeout(1500),
 
                 new WaitCommand(1000),
 
-                new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(() -> hIntakeSubsystem.gateOpen()),
+
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
-                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(3900))
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(2750))
                         ),
                         //shooting first row
                         new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2)
                 ),
+                new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
+                new InstantCommand(() -> hIntakeSubsystem.gateOpen()),
                 new WaitCommand(500),
-                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,3900),
+                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,2750),
                 new WaitCommand(500),
                 new DriveToPointCommand(driveSubsystem, new Pose2d(17, 42, Rotation2d.fromDegrees(22)), 5, 3)
 

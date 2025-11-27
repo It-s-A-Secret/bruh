@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
@@ -14,6 +15,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,11 @@ public class LimelightSubsystem extends SubsystemBase {
     private final Limelight3A camera;
     private boolean isDataOld = false;
     private double targetTag = 20;
+    private PIDController headingController;
+    public static double kPHeading = 0.003, kIHeading = 0.00, kDHeading = 0.000025;
+    private double targetAngle;
+    private double angle;
+
 
 
     public static double CAMERA_HEIGHT = 11.23-1.5;//limelight height minus height of sample (limelight detects top of sample), 0.8 for offset cuz works?
@@ -58,7 +65,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
 
     public LimelightSubsystem(final HardwareMap hardwareMap, Telemetry telemetry) {
-        camera = hardwareMap.get(Limelight3A.class, "limelight");
+        camera = hardwareMap.get(Limelight3A.class, "Limelight");
 
         this.telemetry = telemetry;
 
@@ -68,6 +75,7 @@ public class LimelightSubsystem extends SubsystemBase {
         else{
             targetTag = 24;
         }
+        headingController = new PIDController(kPHeading, kIHeading, kDHeading);
 
         camera.pipelineSwitch(5);
 
@@ -89,27 +97,27 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        if(camera.isRunning()){
-//            telemetry.addData("cameraNotRunning", "false");
-//            camera.updatePythonInputs(new double[] {sampleColor, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
-//            Optional<LLResult> optionalResult = getResult(); // call this to get the limelight results
-//            if(optionalResult.isPresent()) {
-//                Log.i("limelightValid", "true");
-//                LLResult result = optionalResult.get();
-//                long staleness = result.getStaleness();
-//                isDataOld = staleness >= 100; //100 ms
-//            }
-//        }
-//        else{
-//            telemetry.addData("cameraNotRunning", "true");
-//        }
-//
-//        Optional<Pose2d> pose = getPose();
-//        if(pose.isPresent()) {
-//            telemetry.addData("right", pose.get().getX());
-//            telemetry.addData("forward", pose.get().getY());
-//            telemetry.addData("angle", pose.get().getRotation().getDegrees());
-//        }
+        if(camera.isRunning()){
+            telemetry.addData("cameraNotRunning", "false");
+            Optional<LLResult> optionalResult = getResult(); // call this to get the limelight results
+            if(optionalResult.isPresent()) {
+                Log.i("limelightValid", "true");
+                LLResult result = optionalResult.get();
+                long staleness = result.getStaleness();
+                isDataOld = staleness >= 100; //100 ms
+                telemetry.addData("result", result.getFiducialResults());
+            }
+        }
+        else{
+            telemetry.addData("cameraNotRunning", "true");
+        }
+
+        Optional<Pose2d> pose = getPose();
+        if(pose.isPresent()) {
+            telemetry.addData("right", pose.get().getX());
+            telemetry.addData("forward", pose.get().getY());
+            telemetry.addData("angle", pose.get().getRotation().getDegrees());
+        }
 
     }
 
@@ -123,7 +131,16 @@ public class LimelightSubsystem extends SubsystemBase {
         }
         return Optional.empty();
     }
-
+    public double getX(double currentHeading){
+        if (camera == null) return currentHeading;
+        LLResult result = camera.getLatestResult();
+        if (result == null || !result.isValid()) return currentHeading;
+        List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
+        if (fiducials == null || fiducials.isEmpty()) return currentHeading;
+        LLResultTypes.FiducialResult fiducial = fiducials.get(0);
+        if(fiducial.getFiducialId()!=24 || fiducial.getFiducialId()!=25) return currentHeading;
+        return fiducial.getTargetXDegrees();
+    }
     public Optional<Pose2d> getPose(){
 
         Log.i("llbruh", "bruh");
@@ -144,8 +161,12 @@ public class LimelightSubsystem extends SubsystemBase {
 
 
             //relative to limelight
+            double ID = result.getFiducialId();
+            double Bob = result.getTargetXDegrees();
             double forward = Math.tan(Math.toRadians(CAMERA_ANGLE + result.getTargetYDegrees())) * CAMERA_HEIGHT;
 //            forward += tyCompensation.get(forward);
+            telemetry.addData("ID", ID);
+            telemetry.addData("Pose stuff", Bob);
 
             telemetry.addData("forwardRaw", forward);
 

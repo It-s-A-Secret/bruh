@@ -33,6 +33,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.commandGroups.ShootTime;
 
+import org.firstinspires.ftc.teamcode.commandGroups.ShootTimeClose;
+import org.firstinspires.ftc.teamcode.commandGroups.ShootTimeCloseTele;
+import org.firstinspires.ftc.teamcode.commands.AprilDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.TeleDriveCommand;
 
 import org.firstinspires.ftc.teamcode.other.Robot;
@@ -145,16 +148,23 @@ public class TeleopOpMode extends Robot {
         //retract after intaking and basket (spec mode)
 
         triangle1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2700));
-        cross1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2325));
+        cross1.whenPressed(new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem, 10, 2325));
+        dRight1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2325));
+
+
+//        bRight1.whenActive(new LimelightToAprilTag(driveSubsystem, limelightSubsystem));
+        bRight1.toggleWhenPressed(new AprilDriveCommand(driveSubsystem, limelightSubsystem, m_driver,true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
 
 
         circle1.whenActive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeOn()),
                 new InstantCommand(()-> hIntakeSubsystem.stopperStop())
+
         ));
         circle1.whenInactive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
                 new InstantCommand(()-> hIntakeSubsystem.stopperOff())
+
         ));
         square1.whenActive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeReverse()),
@@ -214,6 +224,7 @@ public class TeleopOpMode extends Robot {
 
         //Default Commands
         driveSubsystem.setDefaultCommand(new TeleDriveCommand(driveSubsystem, m_driver, true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
+//        driveSubsystem.setDefaultCommand(new TeleDriveCommand(driveSubsystem, m_driver, true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
 
 
     }

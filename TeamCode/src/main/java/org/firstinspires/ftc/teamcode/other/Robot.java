@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subSystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subSystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.subSystems.hIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subSystems.shooterSubsystem;
 
@@ -63,6 +64,7 @@ public abstract class Robot extends CommandOpMode {
     public DriveSubsystem driveSubsystem;
     public shooterSubsystem shooterSubsystem;
     public hIntakeSubsystem hIntakeSubsystem;
+    public LimelightSubsystem limelightSubsystem;
 //    public ArmSubsystem armSubsystem;
 //    public SecondaryArmSubsystem secondaryArmSubsystem;
 //    public IntakeSubsystem intakeSubsystem;
@@ -281,8 +283,8 @@ public abstract class Robot extends CommandOpMode {
 //        visionSubsystem = new VisionSubsystem(hardwareMap.get(WebcamName.class, "Webcam 1"), telemetry);
 //        register(visionSubsystem);
 
-//        limelightSubsystem = new LimelightSubsystem(hardwareMap, telemetry);
-//        register(limelightSubsystem);
+        limelightSubsystem = new LimelightSubsystem(hardwareMap, telemetry);
+        register(limelightSubsystem);
 
         m_driver = new GamepadEx(gamepad1);
         m_driverOp = new GamepadEx(gamepad2);
@@ -384,7 +386,7 @@ public abstract class Robot extends CommandOpMode {
          */
 
        //pinpoint.setOffsets(73.66, 162.56); //these are tuned for 3110-0002-0001 Product Insight #1
-        pinpoint.setOffsets(-13,5);
+        pinpoint.setOffsets(-7,3);
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
         the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.

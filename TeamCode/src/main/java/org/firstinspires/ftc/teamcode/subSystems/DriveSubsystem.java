@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.subSystems;
 
 
+import static org.firstinspires.ftc.teamcode.other.Globals.alignKD;
+import static org.firstinspires.ftc.teamcode.other.Globals.alignKI;
+import static org.firstinspires.ftc.teamcode.other.Globals.alignKP;
 import static org.firstinspires.ftc.teamcode.other.Globals.headingKD;
 import static org.firstinspires.ftc.teamcode.other.Globals.headingKI;
 import static org.firstinspires.ftc.teamcode.other.Globals.headingKP;
@@ -67,6 +70,8 @@ public class DriveSubsystem extends SubsystemBase {
     private Pose2d targetPos = new Pose2d(0,0, Rotation2d.fromDegrees(0));
 //    private PIDController translationController = new PIDController(translationKP, translationKI, translationKD);
     private PIDController headingController = new PIDController(headingKP, headingKI, headingKD);
+    private PIDController alignHeadingController = new PIDController(alignKP, alignKI, alignKD);
+
     BasicPID translationController = new BasicPID(new PIDCoefficients(translationKP, translationKI, translationKD));
 
 
@@ -317,6 +322,24 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.driveFieldCentric(strafeVelocity, forwardVelocity, turnVelocity, -getHeadingInDegrees(currentPos));
     }
 
+    public double headingAlign(double targetAngle){
+        rawErrorHeading = -(currentPos.getRotation().getDegrees() + targetAngle);
+        rawErrorHeading = rawErrorHeading % 360;
+
+        if (rawErrorHeading < -180) {
+            correctedErrorHeading = rawErrorHeading + 360;
+        } else if (rawErrorHeading > 180) {
+            correctedErrorHeading = rawErrorHeading - 360;
+        } else {
+            correctedErrorHeading = rawErrorHeading;
+        }
+        headingCalculation = voltageCompensation * alignHeadingController.calculate(correctedErrorHeading);
+        turnVelocity = Math.abs(headingCalculation) * Math.signum(headingCalculation);
+        return turnVelocity;
+
+
+
+    }
     public void readPinpoint() {
         timer.reset();
         pinpoint.update();

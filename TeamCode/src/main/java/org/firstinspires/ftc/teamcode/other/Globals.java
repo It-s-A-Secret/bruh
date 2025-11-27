@@ -172,6 +172,9 @@ public class Globals {
     public static double headingKP = 0.005 * (11.5/9.0) / 1.5 * 2;
     public static double headingKI = 0.0;
     public static double headingKD = 0.0002;
+    public static double alignKP = 0.005 * (11.5/9.0) / 1.5 * 2;
+    public static double alignKI = 0.0;
+    public static double alignKD = 0.0002;
     public static double headingKR = .5;
     public static double headingMaxVel = 1; //in degrees per second
     public static double lateralMutliplier = 1.5;

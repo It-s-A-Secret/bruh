@@ -15,7 +15,7 @@ public class ShootTime extends SequentialCommandGroup{
         addCommands(
                 new InstantCommand(() -> shooterSubsystem.setTargetRPM(targetRpm)),
                 new InstantCommand(()-> hIntakeSubsystem.stopperStop()),
-                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(2500),
+                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(1500),
 //                new WaitCommand(    1000),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
                 new WaitCommand(200),
@@ -26,7 +26,7 @@ public class ShootTime extends SequentialCommandGroup{
 
 
 //                new WaitCommand(500),
-                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(1500),
+                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(500),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
                 new WaitCommand(200),
 
@@ -36,12 +36,12 @@ public class ShootTime extends SequentialCommandGroup{
                 new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
 
 //                new WaitCommand(500),
-                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(1500),
+                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(500),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
                 new WaitCommand(200),
 
                 new InstantCommand(() -> hIntakeSubsystem.stopperIn()),
-                new WaitCommand(1000),
+                new WaitCommand(200),
                 new InstantCommand(()-> hIntakeSubsystem.stopperStop()),
                 new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
                 new InstantCommand(()-> hIntakeSubsystem.stopperOff()),

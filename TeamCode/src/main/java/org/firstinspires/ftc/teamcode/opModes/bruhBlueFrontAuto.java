@@ -59,7 +59,7 @@ public class bruhBlueFrontAuto extends Robot {
                 new DriveToPointCommand(driveSubsystem, blueShootFront, 5, 2),
                 new WaitCommand(500),
                 //shoot
-                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,3250),
+                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,2325),
                 new WaitCommand(500),
                 //getting first row
                 new DriveToPointCommand(driveSubsystem, blueThirdRowReady, 5, 5),
@@ -73,13 +73,13 @@ public class bruhBlueFrontAuto extends Robot {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> shooterSubsystem.setTargetRPM(3250))
+                            new InstantCommand(() -> shooterSubsystem.setTargetRPM(2325))
                         ),
                 //shooting first row
                     new DriveToPointCommand(driveSubsystem, blueShootFront, 5, 2)
                 ),
                 new WaitCommand(500),
-                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,3250),
+                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,2325),
                 new WaitCommand(500),
                 new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
                 //intake second row
@@ -96,13 +96,13 @@ public class bruhBlueFrontAuto extends Robot {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
-                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(3250))
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(2325))
                         ),
                         //shooting first row
                         new DriveToPointCommand(driveSubsystem, blueShootFront, 5, 2)
                 ),
                 new WaitCommand(500),
-                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,3250),
+                new ShootTime(shooterSubsystem,hIntakeSubsystem,0,2325),
                 new WaitCommand(500),
                 new DriveToPointCommand(driveSubsystem, new Pose2d(-15, -5, Rotation2d.fromDegrees(45)), 5, 3)
 

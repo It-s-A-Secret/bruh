@@ -102,10 +102,10 @@ public class hIntakeSubsystem extends SubsystemBase {
     }
 
     public void gateClose(){
-        gate.setPosition(0.25);
+        gate.setPosition(0.72);
     }
     public void gateOpen(){
-        gate.setPosition(0.6);
+        gate.setPosition(.95);
     }
 
 
