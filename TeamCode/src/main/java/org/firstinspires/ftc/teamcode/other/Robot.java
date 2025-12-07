@@ -15,6 +15,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -49,6 +50,7 @@ public abstract class Robot extends CommandOpMode {
     public MotorEx shooter, shooter2;
     public DcMotor intake, stopper;
     public Servo gate;
+    public CRServo rightTransfer, leftTransfer;
 //    public DcMotor slideLeft, slideRight;
 //    public MotorGroup slide, arm;
 //    public Servo diffyLeft, diffyRight, claw, nautilus, defensePad, secondaryArmLeft, secondaryArmRight, secondaryYawServo, ptoServo, specClaw, specArm1, specArm2;
@@ -217,7 +219,7 @@ public abstract class Robot extends CommandOpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         stopper = hardwareMap.get(DcMotor.class, "stopper");
         gate = hardwareMap.get(Servo.class, "gate");
-        hIntakeSubsystem = new hIntakeSubsystem(intake, stopper, gate, telemetry);
+        hIntakeSubsystem = new hIntakeSubsystem(intake, stopper, gate, rightTransfer, leftTransfer, telemetry);
         register(hIntakeSubsystem);
 
         //arm

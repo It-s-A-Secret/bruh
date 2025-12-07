@@ -19,6 +19,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.arcrobotics.ftclib.util.InterpLUT;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -34,6 +35,7 @@ public class hIntakeSubsystem extends SubsystemBase {
     private Telemetry telemetry;
     private DcMotor intake, stopper;
     private Servo gate;
+    private CRServo rightTransfer, leftTransfer;
 
 
 
@@ -46,12 +48,14 @@ public class hIntakeSubsystem extends SubsystemBase {
     Command lastCommand;
 
     //constructor
-    public hIntakeSubsystem(DcMotor intake, DcMotor stopper, Servo gate, Telemetry telemetry) {
+    public hIntakeSubsystem(DcMotor intake, DcMotor stopper, Servo gate, CRServo rightTransfer, CRServo leftTransfer, Telemetry telemetry) {
 
         this.telemetry = telemetry;
         this.stopper = stopper;
         this.intake = intake;
         this.gate = gate;
+        this.rightTransfer = rightTransfer;
+        this.leftTransfer=leftTransfer;
 
 
 //TODO: tune the slide gain scheduling
@@ -99,6 +103,15 @@ public class hIntakeSubsystem extends SubsystemBase {
     }
     public void stopperOff(){
         stopper.setPower(0);
+    }
+
+    public void transferIn(){
+        rightTransfer.setPower(1);
+        leftTransfer.setPower(-1);
+    }
+    public void transferOut(){
+        rightTransfer.setPower(-1);
+        leftTransfer.setPower(1);
     }
 
     public void gateClose(){

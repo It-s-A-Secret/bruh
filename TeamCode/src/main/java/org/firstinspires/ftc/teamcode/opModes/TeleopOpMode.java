@@ -158,12 +158,12 @@ public class TeleopOpMode extends Robot {
 
         circle1.whenActive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeOn()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperStop())
+                new InstantCommand(()-> hIntakeSubsystem.stopperIn())
 
         ));
         circle1.whenInactive(new ParallelCommandGroup(
                 new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperOff())
+                new InstantCommand(()-> hIntakeSubsystem.stopperIn())
 
         ));
         square1.whenActive(new ParallelCommandGroup(

@@ -15,7 +15,7 @@ dependencies {
     implementation 'org.firstinspires.ftc:Hardware:11.0.0'
     implementation 'org.firstinspires.ftc:FtcCommon:11.0.0'
     implementation 'org.firstinspires.ftc:Vision:11.0.0'
-    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.17'
     implementation 'com.github.Thermal-Equilibrium:homeostasis-FTC:1.0.8'
     implementation "com.acmerobotics.roadrunner:core:1.0.1"
