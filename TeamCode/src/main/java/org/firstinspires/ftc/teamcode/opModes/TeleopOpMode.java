@@ -2,19 +2,10 @@ package org.firstinspires.ftc.teamcode.opModes;
 
 
 import static com.qualcomm.robotcore.hardware.Gamepad.LED_DURATION_CONTINUOUS;
-import static org.firstinspires.ftc.teamcode.other.Globals.armHighBasketX;
-import static org.firstinspires.ftc.teamcode.other.Globals.armHighBasketY;
-import static org.firstinspires.ftc.teamcode.other.Globals.armIntakeWallX;
-import static org.firstinspires.ftc.teamcode.other.Globals.armIntakeWallY;
-import static org.firstinspires.ftc.teamcode.other.Globals.armLowBasketY;
-import static org.firstinspires.ftc.teamcode.other.Globals.manualArm;
-import static org.firstinspires.ftc.teamcode.other.Globals.manualSlides;
-import static org.firstinspires.ftc.teamcode.other.Globals.pitchIntakeWall;
-import static org.firstinspires.ftc.teamcode.other.Globals.pitchWhenBasket;
-import static org.firstinspires.ftc.teamcode.other.Globals.pitchWhenIntake;
-import static org.firstinspires.ftc.teamcode.other.Globals.rollIntakeWall;
-import static org.firstinspires.ftc.teamcode.other.Globals.rollWhenBasket;
 
+
+import static org.firstinspires.ftc.teamcode.other.Globals.closeRPM;
+import static org.firstinspires.ftc.teamcode.other.Globals.farRPM;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
@@ -33,11 +24,11 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.commandGroups.ShootTime;
 
-import org.firstinspires.ftc.teamcode.commandGroups.ShootTimeClose;
 import org.firstinspires.ftc.teamcode.commandGroups.ShootTimeCloseTele;
-import org.firstinspires.ftc.teamcode.commands.AprilDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.TeleDriveCommand;
 
+import org.firstinspires.ftc.teamcode.commands.TeleDriveCommandRobotCentric;
+import org.firstinspires.ftc.teamcode.commands.TeleDriveHeadingLocked;
 import org.firstinspires.ftc.teamcode.other.Robot;
 
 
@@ -53,6 +44,8 @@ public class TeleopOpMode extends Robot {
     private Trigger tLeft1, tRight1, tLeft2, tRight2;
 
     //teleop mode
+    public static boolean TeamBlue;
+    public static boolean blue;
     public static boolean teleopSpec = false;
     public static boolean parallelizing = false;
 
@@ -71,8 +64,8 @@ public class TeleopOpMode extends Robot {
 
         //configureMoreCommands();
         configureButtons();
-        manualArm = false;
-        manualSlides = false;
+        new InstantCommand(() -> hIntakeSubsystem.gateClose());
+
 
 //        new ArmCoordinatesCommand(armSubsystem, 12, 7).schedule(true);
 
@@ -147,36 +140,123 @@ public class TeleopOpMode extends Robot {
 //        dDown1.whenPressed(new FlipSample(armSubsystem, intakeSubsystem, secondaryArmSubsystem));
         //retract after intaking and basket (spec mode)
 
-        triangle1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2700));
-        cross1.whenPressed(new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem, 10, 2325));
-        dRight1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2325));
+        triangle1.whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> shooterSubsystem.setTargetRPM(farRPM)),
+                        new InstantCommand(() -> shooterSubsystem.setHoodFar())
+                )
+        );
+        triangle1.whenReleased(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, farRPM));
+        cross1.whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> shooterSubsystem.setTargetRPM(closeRPM)),
+                        new InstantCommand(() -> shooterSubsystem.setHoodClose())
+                )
+        );
+        cross1.whenReleased(new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem, 10, closeRPM));
+//        dRight1.whenPressed(new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, 2100));
 
 
 //        bRight1.whenActive(new LimelightToAprilTag(driveSubsystem, limelightSubsystem));
-        bRight1.toggleWhenPressed(new AprilDriveCommand(driveSubsystem, limelightSubsystem, m_driver,true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
+
+
+
+        dRight1.toggleWhenPressed(
+                new InstantCommand(()-> shooterSubsystem.turretOn()),
+                new InstantCommand(()-> shooterSubsystem.turretOff())
+
+
+        );
+
+        start1.whenPressed(
+                new InstantCommand(()-> shooterSubsystem.turretTuneTrue())
+                );
+        start1.whenReleased(
+                new SequentialCommandGroup(
+                        new InstantCommand(()-> shooterSubsystem.resetTurret()),
+                        new InstantCommand(()-> shooterSubsystem.turretTuneFalse())
+                )
+        );
+        tLeft1.whenActive(
+                new InstantCommand(()-> shooterSubsystem.turretPower(500))
+        );
+        tLeft1.whenInactive(
+                new InstantCommand(()-> shooterSubsystem.turretPower(0))
+        );
+        tRight1.whenActive(
+                new InstantCommand(()-> shooterSubsystem.turretPower(-500))
+        );
+        tRight1.whenInactive(
+                new InstantCommand(()-> shooterSubsystem.turretPower(0))
+        );
+
+
+        dDown1.toggleWhenPressed(new InstantCommand(()-> shooterSubsystem.setHoodFar()),
+                new InstantCommand(()-> shooterSubsystem.setHoodClose()));
+
+        dLeft1.toggleWhenPressed(
+                new InstantCommand(()-> hIntakeSubsystem.gateClose()),
+                new InstantCommand(()-> hIntakeSubsystem.gateOpen())
+
+
+        );
+
+
+
+        back1.toggleWhenPressed(
+                new TeleDriveCommandRobotCentric(driveSubsystem, m_driver, true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX)
+
+        );
 
 
         circle1.whenActive(new ParallelCommandGroup(
-                new InstantCommand(()-> hIntakeSubsystem.intakeOn()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperIn())
+                new InstantCommand(()-> hIntakeSubsystem.intakeOn())
+
+
 
         ));
         circle1.whenInactive(new ParallelCommandGroup(
-                new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperIn())
+                new InstantCommand(()-> hIntakeSubsystem.intakeOff())
+
+
+
 
         ));
         square1.whenActive(new ParallelCommandGroup(
-                new InstantCommand(()-> hIntakeSubsystem.intakeReverse()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperStop())
+                new InstantCommand(()-> hIntakeSubsystem.intakeReverse())
+
+
         ));
         square1.whenInactive(new ParallelCommandGroup(
-                new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperOff())
-        ));
+                new InstantCommand(()-> hIntakeSubsystem.intakeOff())
 
-        dUp1.whenPressed(new InstantCommand(() -> hIntakeSubsystem.gateOpen()));
-        dDown1.whenPressed(new InstantCommand(() -> hIntakeSubsystem.gateClose()));
+
+        ));
+//
+//        tRight1.whenActive(
+//                new InstantCommand(()-> shooterSubsystem.turretPower(10))
+//
+//        );
+//        tRight1.whenInactive(
+//                new InstantCommand(()-> shooterSubsystem.turretPower(0))
+//
+//        );
+//
+//        tRight1.whenActive(
+//                new InstantCommand(()-> shooterSubsystem.turretPower(-10))
+//
+//        );
+//        tRight1.whenInactive(
+//                new InstantCommand(()-> shooterSubsystem.turretPower(0))
+//
+//        );
+//        start1.whenPressed(
+//                new InstantCommand(()-> shooterSubsystem.resetTurret())
+//        );
+
+
+//        dUp1.whenPressed(new InstantCommand(() -> hIntakeSubsystem.gateOpen()));
+//        dDown1.whenPressed(new InstantCommand(() -> hIntakeSubsystem.gateClose()));
 
                 //wall intake
 //        tRight1.toggleWhenActive(new teleopSpecScore(driveSubsystem,armSubsystem,intakeSubsystem));
@@ -223,7 +303,12 @@ public class TeleopOpMode extends Robot {
 
 
         //Default Commands
-        driveSubsystem.setDefaultCommand(new TeleDriveCommand(driveSubsystem, m_driver, true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
+        if(TeamBlue) {
+            driveSubsystem.setDefaultCommand(new TeleDriveCommand(driveSubsystem, m_driver, true, 10, m_driver::getLeftY, m_driver::getLeftX, m_driver::getRightX, true));
+        }else{
+            driveSubsystem.setDefaultCommand(new TeleDriveCommand(driveSubsystem, m_driver, true, 10, m_driver::getLeftY, m_driver::getLeftX, m_driver::getRightX, false));
+
+        }
 //        driveSubsystem.setDefaultCommand(new TeleDriveCommand(driveSubsystem, m_driver, true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX));
 
 

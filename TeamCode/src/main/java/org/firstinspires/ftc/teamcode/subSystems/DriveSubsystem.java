@@ -150,8 +150,39 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         //actually moving
-        mecanumDrive.driveRobotCentric(-strafeSpeed * power, forwardSpeed * power, -turnSpeed * power, true);//-currentPos.getRotation().getDegrees()
+        mecanumDrive.driveRobotCentric(-strafeSpeed * power, forwardSpeed * power, turnSpeed * power, true);//-currentPos.getRotation().getDegrees()
 
+        //read pinpoint
+        readPinpoint();
+    }
+
+    public void teleDrive(GamepadEx driver, boolean arcTanZones, int arcTanAngleRange, double strafeSpeed, double forwardSpeed, double turnSpeed, boolean isBlue) {
+        //slow mode
+        if (driver.getButton(GamepadKeys.Button.RIGHT_BUMPER)) {
+            power = .3;
+        } else {
+            power = 1;
+        }
+
+
+        //arc tan dead zones
+        if (arcTanZones) {
+            if (Math.toDegrees(Math.atan(y / x)) > 90 - arcTanAngleRange / 2 && Math.toDegrees(Math.atan(y / x)) < 90 + arcTanAngleRange / 2
+                    || Math.toDegrees(Math.atan(y / x)) < -90 - arcTanAngleRange / 2 && Math.toDegrees(Math.atan(y / x)) > -90 + arcTanAngleRange / 2) {
+                x = 0;
+
+            } else if (Math.toDegrees(Math.atan(y / x)) > 0 - arcTanAngleRange / 2 && Math.toDegrees(Math.atan(y / x)) < 0 + arcTanAngleRange / 2
+                    || Math.toDegrees(Math.atan(y / x)) > 180 - arcTanAngleRange / 2 && Math.toDegrees(Math.atan(y / x)) < 180 + arcTanAngleRange / 2) {
+                y = 0;
+            }
+        }
+
+        //actually moving
+        if (isBlue) {
+            mecanumDrive.driveFieldCentric(strafeSpeed * power, -forwardSpeed * power, -turnSpeed * power, currentPos.getRotation().getDegrees(),true);//-currentPos.getRotation().getDegrees()
+        }else{
+            mecanumDrive.driveFieldCentric(-strafeSpeed * power, forwardSpeed * power, -turnSpeed * power, currentPos.getRotation().getDegrees(),true);//-currentPos.getRotation().getDegrees()
+        }
         //read pinpoint
         readPinpoint();
     }
@@ -181,7 +212,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         //actually moving
-        mecanumDrive.driveFieldCentric(strafeSpeed * power, forwardSpeed * power, -turnSpeed * power, currentPos.getRotation().getDegrees());
+        mecanumDrive.driveRobotCentric(strafeSpeed * power, forwardSpeed * power, -turnSpeed * power, true);
 
         //read pinpoint
         readPinpoint();
@@ -265,8 +296,8 @@ public class DriveSubsystem extends SubsystemBase {
         headingController.setPID(headingKP, headingKI, headingKD);
 
         //error calculation
-        errorX = currentPos.getX() - targetPos.getX();
-        errorY = currentPos.getY() - targetPos.getY();
+        errorX = currentPos.getY() - targetPos.getY();
+        errorY = currentPos.getX() - targetPos.getX();
 
         //angular difference correction
         rawErrorHeading = currentPos.getRotation().getDegrees() - targetPos.getRotation().getDegrees();
@@ -319,7 +350,7 @@ public class DriveSubsystem extends SubsystemBase {
         telemetry.addData("turnSpeed", turnVelocity);
 
         //actually driving
-        mecanumDrive.driveFieldCentric(strafeVelocity, forwardVelocity, turnVelocity, -getHeadingInDegrees(currentPos));
+        mecanumDrive.driveFieldCentric(strafeVelocity, forwardVelocity, turnVelocity, getHeadingInDegrees(currentPos));
     }
 
     public double headingAlign(double targetAngle){

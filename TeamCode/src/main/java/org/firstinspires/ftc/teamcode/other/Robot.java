@@ -43,40 +43,25 @@ public abstract class Robot extends CommandOpMode {
 
     //test statics
     public static double x = 0, y = 0;
-    public static double pitch = 0, roll = 0, secondaryArmYaw = 0, secondaryArmPitch = 0;
 
     //hardware
     public MotorEx BL, BR, FL, FR, armLeft, armRight;
-    public MotorEx shooter, shooter2;
+    public MotorEx shooter, shooter2, turret;
     public DcMotor intake, stopper;
     public Servo gate;
+    public Servo hood;
     public CRServo rightTransfer, leftTransfer;
-//    public DcMotor slideLeft, slideRight;
-//    public MotorGroup slide, arm;
-//    public Servo diffyLeft, diffyRight, claw, nautilus, defensePad, secondaryArmLeft, secondaryArmRight, secondaryYawServo, ptoServo, specClaw, specArm1, specArm2;
-//    public AnalogInput armEncoder;
+
     public GoBildaPinpointDriver pinpoint;
     private MecanumDrive mecanumDrive;
     public IMU gyro;
-//    public RevColorSensorV3 sensor, distance;
-
-    public AnalogInput analog0, analog1;
 
     //subsystems
     public DriveSubsystem driveSubsystem;
     public shooterSubsystem shooterSubsystem;
     public hIntakeSubsystem hIntakeSubsystem;
     public LimelightSubsystem limelightSubsystem;
-//    public ArmSubsystem armSubsystem;
-//    public SecondaryArmSubsystem secondaryArmSubsystem;
-//    public IntakeSubsystem intakeSubsystem;
-////    public VisionSubsystem visionSubsystem;
-//    public ColorSubsystem colorSubsystem;
-//    public SpecMechSubsystem specMechSubsystem;
-//
-//    public LimelightSubsystem limelightSubsystem;
 
-    //system
     private LynxModule controlHub;
 
     //voltage
@@ -137,22 +122,15 @@ public abstract class Robot extends CommandOpMode {
         FR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        //dt servos
-//        defensePad = hardwareMap.get(Servo.class, "defensePad");
-//        ptoServo = hardwareMap.get(Servo.class, "pto");
 
-//        FR.setInverted(true);
-//        BR.setInverted(true);
-//        FL.setInverted(true);
-//        BL.setInverted(true);
 
         mecanumDrive = new MecanumDrive(FL, FR, BL, BR);
         gyro = hardwareMap.get(IMU.class, "imu");
         gyro.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
+                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                                RevHubOrientationOnRobot.UsbFacingDirection.UP)
                 )
         );
 
@@ -184,13 +162,10 @@ public abstract class Robot extends CommandOpMode {
         FR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        //dt servos
-//        defensePad = hardwareMap.get(Servo.class, "defensePad");
-//        ptoServo = hardwareMap.get(Servo.class, "pto");
 
         FR.setInverted(false);
-        BR.setInverted(true);
-        FL.setInverted(true);
+        BR.setInverted(false);
+        FL.setInverted(false);
         BL.setInverted(true);
 
         mecanumDrive = new MecanumDrive(FL, FR, BL, BR);
@@ -198,7 +173,7 @@ public abstract class Robot extends CommandOpMode {
         gyro.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                                 RevHubOrientationOnRobot.UsbFacingDirection.UP)
                 )
         );
@@ -213,77 +188,19 @@ public abstract class Robot extends CommandOpMode {
         shooter2.setRunMode(MotorEx.RunMode.RawPower);
         shooter.setInverted(true);
         shooter2.setInverted(true);
-        shooterSubsystem = new shooterSubsystem(shooter, shooter2,telemetry);
+        turret = new MotorEx(hardwareMap, "turret");
+        hood = hardwareMap.get(Servo.class, "hood");
+        hood.setDirection(Servo.Direction.REVERSE);
+        shooterSubsystem = new shooterSubsystem(shooter, shooter2, turret, hood, driveSubsystem, telemetry);
         register(shooterSubsystem);
 
         intake = hardwareMap.get(DcMotor.class, "intake");
-        stopper = hardwareMap.get(DcMotor.class, "stopper");
+
         gate = hardwareMap.get(Servo.class, "gate");
-        hIntakeSubsystem = new hIntakeSubsystem(intake, stopper, gate, rightTransfer, leftTransfer, telemetry);
+
+        hIntakeSubsystem = new hIntakeSubsystem(intake, gate, telemetry);
         register(hIntakeSubsystem);
 
-        //arm
-//        armLeft = new MotorEx(hardwareMap, "armLeft");
-//        armRight = new MotorEx(hardwareMap, "armRight");
-//        slideLeft = hardwareMap.get(DcMotor.class, "slideL");
-//        slideRight = hardwareMap.get(DcMotor.class, "slideR");
-//        armEncoder = hardwareMap.get(AnalogInput.class, "armEncoder");
-//        nautilus = hardwareMap.get(Servo.class, "nautilus");
-//        armLeft.setRunMode(Motor.RunMode.RawPower);
-//        armRight.setRunMode(Motor.RunMode.RawPower);
-//        slideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        slideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        slideLeft.setDirection(DcMotor.Direction.REVERSE);
-//        slideRight.setDirection(DcMotor.Direction.FORWARD);
-//        armLeft.setInverted(false);
-//        armRight.setInverted(true);
-//
-//        arm = new MotorGroup(armLeft, armRight);
-
-        //armSubsystem
-//        armSubsystem = new ArmSubsystem(arm, slideLeft, slideRight, nautilus, armEncoder, telemetry);
-//        register(armSubsystem);
-
-
-        //sensor
-//        sensor = hardwareMap.get(RevColorSensorV3.class, "color");
-//
-////        colorSubsystem = new ColorSubsystem(hardwareMap, telemetry);
-////        register(colorSubsystem);
-//
-//
-//        //intake
-//        claw = hardwareMap.get(Servo.class, "claw");
-//        diffyLeft = hardwareMap.get(Servo.class, "diffyLeft");
-//        diffyRight = hardwareMap.get(Servo.class, "diffyRight");
-//        diffyLeft.setDirection(Servo.Direction.REVERSE);
-//
-////        intakeSubsystem = new IntakeSubsystem(claw, diffyLeft, diffyRight, telemetry);
-////        register(intakeSubsystem);
-//
-//        //secondaryArmSubsystem
-//        secondaryArmLeft = hardwareMap.get(Servo.class, "secondaryArmLeft");
-//        secondaryArmRight = hardwareMap.get(Servo.class, "secondaryArmRight");
-//        secondaryYawServo = hardwareMap.get(Servo.class, "secondaryYawServo");
-//        secondaryArmRight.setDirection(Servo.Direction.REVERSE);
-//
-////        secondaryArmSubsystem = new SecondaryArmSubsystem(secondaryArmLeft, secondaryArmRight, telemetry, secondaryYawServo);
-////        register(secondaryArmSubsystem);
-//
-//        //specMech
-//        specClaw = hardwareMap.get(Servo.class, "specClaw");
-//        specArm1 = hardwareMap.get(Servo.class, "tertiaryArm1");
-//        specArm2 = hardwareMap.get(Servo.class,"tertiaryArm2");
-
-//        specMechSubsystem = new SpecMechSubsystem(specClaw, specArm1, specArm2, telemetry);
-//        register(specMechSubsystem);
-
-
-        //vision
-//        visionSubsystem = new VisionSubsystem(hardwareMap.get(WebcamName.class, "Webcam 1"), telemetry);
-//        register(visionSubsystem);
 
         limelightSubsystem = new LimelightSubsystem(hardwareMap, telemetry);
         register(limelightSubsystem);
@@ -388,15 +305,15 @@ public abstract class Robot extends CommandOpMode {
          */
 
        //pinpoint.setOffsets(73.66, 162.56); //these are tuned for 3110-0002-0001 Product Insight #1
-        pinpoint.setOffsets(-7,3);
+        pinpoint.setOffsets(-7.3,-12.7);
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
         the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
         If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
         number of ticks per mm of your odometry pod.
          */
-       //pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-       pinpoint.setEncoderResolution(13.26291192);
+//       pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+       pinpoint.setEncoderResolution(15.0313);
 
         //odo.setEncoderResolution(13.26291192);
 

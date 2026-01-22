@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode.subSystems;
 
-//import static org.firstinspires.ftc.teamcode.other.Globals.armFoldX;
-//import static org.firstinspires.ftc.teamcode.other.Globals.armFoldY;
-//import static org.firstinspires.ftc.teamcode.other.Globals.manualArm;
-import static org.firstinspires.ftc.teamcode.other.Globals.manualSlides;
-import static org.firstinspires.ftc.teamcode.other.Robot.voltageCompensation;
+
 
 import android.util.Log;
 
@@ -24,6 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.other.Globals;
 
 import java.util.LinkedList;
 import java.util.function.DoubleSupplier;
@@ -48,7 +45,7 @@ public class hIntakeSubsystem extends SubsystemBase {
     Command lastCommand;
 
     //constructor
-    public hIntakeSubsystem(DcMotor intake, DcMotor stopper, Servo gate, CRServo rightTransfer, CRServo leftTransfer, Telemetry telemetry) {
+    public hIntakeSubsystem(DcMotor intake, Servo gate, Telemetry telemetry) {
 
         this.telemetry = telemetry;
         this.stopper = stopper;
@@ -58,67 +55,25 @@ public class hIntakeSubsystem extends SubsystemBase {
         this.leftTransfer=leftTransfer;
 
 
-//TODO: tune the slide gain scheduling
-        //Adding each val with a key
-
-
-        //nautilus lut
-
-        //-0.02909x+0.7582
-//        nautilus.add(-999999,0.81);
-//        nautilus.add(-2.1,0.81);
-//        nautilus.add(0.7,0.74);
-//        nautilus.add(2.4,0.69);
-//        nautilus.add(4.5,0.63);
-//        nautilus.add(6.9,0.56);
-//        nautilus.add(9.3,0.49);
-//        nautilus.add(11.7,0.42);
-//        nautilus.add(14.1,0.35);
-//        nautilus.add(99999,0.35);
-//
-//
-////        nautilus.add(17.1,0.26);
-////        nautilus.add(19.2,0.2);
-////        nautilus.add(21.4,0.13);
-////        nautilus.add(999999,0.13);
-//        nautilus.createLUT();
-//
-//        nautilusDown();
     }
     public void intakeOn(){
-        intake.setPower(1);
+        intake.setPower(-1);
     }
     public void intakeOff(){
         intake.setPower(0);
     }
     public void intakeReverse(){
-        intake.setPower(-1);
+        intake.setPower(1);
     }
 
-    public void stopperStop(){
-        stopper.setPower(1);
-    }
-    public void stopperIn(){
-        stopper.setPower(-1);
-    }
-    public void stopperOff(){
-        stopper.setPower(0);
-    }
 
-    public void transferIn(){
-        rightTransfer.setPower(1);
-        leftTransfer.setPower(-1);
-    }
-    public void transferOut(){
-        rightTransfer.setPower(-1);
-        leftTransfer.setPower(1);
-    }
+
 
     public void gateClose(){
-        gate.setPosition(0.72);
+        gate.setPosition(Globals.gateClose);
     }
     public void gateOpen(){
-        gate.setPosition(.95);
+        gate.setPosition(Globals.gateOpen);
     }
 
 
@@ -165,17 +120,6 @@ public class hIntakeSubsystem extends SubsystemBase {
         //slide pid
 
 
-//        telemetry.addData("armAngle", correctedAngle);
-//        telemetry.addData("armTarget", setArmTargetAngle);
-//        telemetry.addData("armPower", armPower);
-//        telemetry.addData("armManual", armManualPower);
-//        telemetry.addData("armKP", armController.getP());
-//        telemetry.addData("armError", setArmTargetAngle - correctedAngle);
-
-
-////        telemetry.addData("targetArmY", targetY);
-//        telemetry.addData("xArmPos", getCurrentX());
-//        telemetry.addData("yArmPos", getCurrentY());
 
 
 

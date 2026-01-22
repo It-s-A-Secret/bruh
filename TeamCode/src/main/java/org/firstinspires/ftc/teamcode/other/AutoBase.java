@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.other;
 
-import static org.firstinspires.ftc.teamcode.other.Globals.manualArm;
-import static org.firstinspires.ftc.teamcode.other.Globals.manualSlides;
+
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.util.ElapsedTime;

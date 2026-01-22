@@ -12,18 +12,24 @@ public class ShootTimeCloseTele extends SequentialCommandGroup{
     public ShootTimeCloseTele(shooterSubsystem shooterSubsystem, hIntakeSubsystem hIntakeSubsystem, int time, double targetRpm){
         addCommands(
                 new InstantCommand(() -> shooterSubsystem.setTargetRPM(targetRpm)),
+                new InstantCommand(()-> hIntakeSubsystem.gateOpen()),
+                new InstantCommand(()-> shooterSubsystem.setHoodClose()),
+
+
 //                new InstantCommand(()-> hIntakeSubsystem.stopperStop()),
-                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(1500),
+                new WaitForRPMCommand(shooterSubsystem, targetRpm, 25).withTimeout(1000),
 //                new WaitCommand(    1000),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
 
-                new InstantCommand(() -> hIntakeSubsystem.stopperIn()),
-                new WaitCommand(1000),
-                new InstantCommand(()-> hIntakeSubsystem.stopperStop()),
+                new WaitCommand(1500),
                 new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(()-> hIntakeSubsystem.stopperOff()),
 
-                new InstantCommand(() -> shooterSubsystem.stop())
+
+                new InstantCommand(() -> shooterSubsystem.setTargetRPM(0)),
+                new WaitCommand(500),
+                new InstantCommand(() -> shooterSubsystem.stop()),
+                new InstantCommand(()-> hIntakeSubsystem.gateClose())
+
         );
     }
 }

@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.subSystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class TeleDriveCommand extends CommandBase {
+public class TeleDriveCommandRobotCentric extends CommandBase {
     private DriveSubsystem driveSubsystem;
 
     private DoubleSupplier strafe, forward, turn;
@@ -15,7 +15,7 @@ public class TeleDriveCommand extends CommandBase {
     private int arcTanAngleRange;
     private GamepadEx driver;
 
-    public TeleDriveCommand(DriveSubsystem driveSubsystem, GamepadEx driver, boolean arcTanZones, int arcTanAngleRange, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn, boolean isBlue) {
+    public TeleDriveCommandRobotCentric(DriveSubsystem driveSubsystem, GamepadEx driver, boolean arcTanZones, int arcTanAngleRange, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
         this.driveSubsystem = driveSubsystem;
         this.driver = driver;
         this.strafe = strafe;
@@ -30,7 +30,7 @@ public class TeleDriveCommand extends CommandBase {
 
     @Override
     public void execute(){
-        driveSubsystem.teleDrive(driver, arcTanZones, arcTanAngleRange, strafe.getAsDouble(), forward.getAsDouble(), turn.getAsDouble(), isBlue);
+        driveSubsystem.teleDrive(driver, arcTanZones, arcTanAngleRange, strafe.getAsDouble(), forward.getAsDouble(), turn.getAsDouble());
     }
 
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opModes;
 
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.startingPosLeft;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.startingRedBack;
+import static org.firstinspires.ftc.teamcode.other.PosGlobals.startingRedFront;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.geometry.Pose2d;
@@ -22,7 +23,7 @@ public class BetterLocalizationTest extends Robot {
     public void initialize() {
         super.initialize();
 
-        schedule( new InstantCommand(() -> driveSubsystem.setStartingPos( new Pose2d(118, 156, Rotation2d.fromDegrees(130)))));
+        schedule( new InstantCommand(() -> driveSubsystem.setStartingPos(startingRedFront)));
 
         localTestCommand = new LocalTestCommand(driveSubsystem, pinpoint, telemetry, m_driver, true, 10, m_driver::getLeftX, m_driver::getLeftY, m_driver::getRightX);
         driveSubsystem.setDefaultCommand(localTestCommand);

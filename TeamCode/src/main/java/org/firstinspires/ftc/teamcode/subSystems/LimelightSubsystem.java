@@ -8,7 +8,9 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.util.InterpLUT;
+import com.qualcomm.hardware.limelightvision.LLFieldMap;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -26,27 +28,34 @@ import java.util.Optional;
 public class LimelightSubsystem extends SubsystemBase {
 
 
-    public enum Alliance {
-        RED,
-        BLUE
-
-    }
-    public static Alliance alliance = Alliance.RED;
+//    public enum Alliance {
+//        RED,
+//        BLUE
+//
+//    }
+//    public static Alliance alliance = Alliance.RED;
 
 
 
     private final Limelight3A camera;
+
     private boolean isDataOld = false;
     private double targetTag = 20;
     private PIDController headingController;
-    public static double kPHeading = 0.003, kIHeading = 0.00, kDHeading = 0.000025;
-    private double targetAngle;
+    public static double kPHeading = 0.035, kIHeading = 0.00, kDHeading = 0.000025;
     private double angle;
+
+    public double currentAngle, targetAngle;
+    public boolean turretOn;
 
 
 
     public static double CAMERA_HEIGHT = 11.23-1.5;//limelight height minus height of sample (limelight detects top of sample), 0.8 for offset cuz works?
-    public static double CAMERA_ANGLE = 45.25; //downwards Angle
+    public static double CAMERA_ANGLE = 0; //downwards Angle
+    private static final double TICKS_PER_REVTURRET = 103.8;
+
+
+
 
     Pose2d botToLimelight = new Pose2d(new Translation2d(6.556, 5.45), new Rotation2d(Math.toRadians(0)));
 
@@ -64,17 +73,18 @@ public class LimelightSubsystem extends SubsystemBase {
 
 
 
-    public LimelightSubsystem(final HardwareMap hardwareMap, Telemetry telemetry) {
+    public LimelightSubsystem(final HardwareMap hardwareMap,Telemetry telemetry) {
         camera = hardwareMap.get(Limelight3A.class, "Limelight");
 
         this.telemetry = telemetry;
 
-        if (alliance == Alliance.BLUE){
-            targetTag = 20;
-        }
-        else{
-            targetTag = 24;
-        }
+//
+//        if (alliance == Alliance.BLUE){
+//            targetTag = 20;
+//        }
+//        else{
+//            targetTag = 24;
+//        }
         headingController = new PIDController(kPHeading, kIHeading, kDHeading);
 
         camera.pipelineSwitch(5);
@@ -97,29 +107,46 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(camera.isRunning()){
-            telemetry.addData("cameraNotRunning", "false");
-            Optional<LLResult> optionalResult = getResult(); // call this to get the limelight results
-            if(optionalResult.isPresent()) {
-                Log.i("limelightValid", "true");
-                LLResult result = optionalResult.get();
-                long staleness = result.getStaleness();
-                isDataOld = staleness >= 100; //100 ms
-                telemetry.addData("result", result.getFiducialResults());
-            }
-        }
-        else{
-            telemetry.addData("cameraNotRunning", "true");
-        }
+//        if(camera.isRunning()) {
+//
+//            telemetry.addData("cameraNotRunning", "false");
+//            Optional<LLResult> optionalResult = getResult(); // call this to get the limelight results
+//            if (!optionalResult.isEmpty()) {
+//                Log.i("limelightValid", "true");
+//                LLResult result = optionalResult.get();
+//                long staleness = result.getStaleness();
+//                isDataOld = staleness >= 100; //100 ms
+//                telemetry.addData("result", result.getFiducialResults());
+//            }
+//            Optional<Rotation2d> rotation = getRotation();
+//            if (rotation.isPresent()) {
+//                telemetry.addData("angle", rotation.get().getDegrees());
+//
+//
+//                headingController.setPID(kPHeading, kIHeading, kDHeading);
+////                double currentAngle = getTurretAngle();
+//                double targetAngle = currentAngle + getRotationAngle();
+//                double pid = headingController.calculate(currentAngle, targetAngle);
+//                double power = Math.max(-1, Math.min(1, pid));
+//                if (turretOn) {
+////                    turret.set(power);
+//                } else {
+////                    turret.set(0);
+//                }
+//                telemetry.addData("currentAngle", currentAngle);
+//                telemetry.addData("targetAngle", targetAngle);
+//            }else{
+////                turret.set(0);
+//            }
+//        }
 
-        Optional<Pose2d> pose = getPose();
-        if(pose.isPresent()) {
-            telemetry.addData("right", pose.get().getX());
-            telemetry.addData("forward", pose.get().getY());
-            telemetry.addData("angle", pose.get().getRotation().getDegrees());
-        }
+
+
+
+
 
     }
+
 
     public Optional<LLResult> getResult(){
         if(camera.isRunning()) {
@@ -131,27 +158,24 @@ public class LimelightSubsystem extends SubsystemBase {
         }
         return Optional.empty();
     }
-    public double getX(double currentHeading){
-        if (camera == null) return currentHeading;
-        LLResult result = camera.getLatestResult();
-        if (result == null || !result.isValid()) return currentHeading;
-        List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
-        if (fiducials == null || fiducials.isEmpty()) return currentHeading;
-        LLResultTypes.FiducialResult fiducial = fiducials.get(0);
-        if(fiducial.getFiducialId()!=24 || fiducial.getFiducialId()!=25) return currentHeading;
-        return fiducial.getTargetXDegrees();
+    public double getAngle(){
+        return 0;
     }
-    public Optional<Pose2d> getPose(){
+
+    public Optional<Rotation2d> getRotation(){
 
         Log.i("llbruh", "bruh");
 
+        if(camera.isRunning()){
+            Optional<LLResult> optionalResult = getResult();
 
-        Optional<LLResult> optionalResult = getResult();
+        }
+            Optional<LLResult> optionalResult = getResult();
         if(!optionalResult.isPresent()){return Optional.empty();}
 
         LLResult results = optionalResult.get();
 
-        ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
+        ArrayList<Rotation2d> poses = new ArrayList<Rotation2d>();
 
         Log.i("llSize", String.valueOf(results.getFiducialResults().size()));
 
@@ -170,76 +194,61 @@ public class LimelightSubsystem extends SubsystemBase {
 
             telemetry.addData("forwardRaw", forward);
 
-            double hypot = Math.hypot(CAMERA_HEIGHT, forward);
-
-            double right = Math.tan(Math.toRadians(result.getTargetXDegrees())) * hypot;
-
-            telemetry.addData("rightRaw", right);
-
-            List<List<Double>> corners = result.getTargetCorners();
-            double angle = 0.0;
-
-            if(!corners.isEmpty()){
-                double changeInX = corners.get(0).get(0)-corners.get(2).get(0);
-                double changeInY = corners.get(0).get(1)-corners.get(2).get(1);
-
-                telemetry.addData("changeInX", changeInX);
-                telemetry.addData("changeInY", changeInY);
 
 
-
-                double aspectRatio = Math.abs(changeInY/changeInX);
-
-                telemetry.addData("aspectRatio", aspectRatio);
-
-                if(aspectRatio<1.0){
-                    angle=90.0;
-                }
-
-                telemetry.addData("praywehittissampleangle", angle);
-            }
 
 //            telemetry.addData("anglePre", String.valueOf(angle));
 
-            angle -= botToLimelight.getRotation().getDegrees(); //technically not field relative
+            angle = -Bob; //technically not field relative
 
 
-//            Log.i("bruhAngle", String.valueOf(angle));
-
-//        Transform2d poseRelativeToLL = new Transform2d(new Translation2d(right, forward), new Rotation2d(Math.toRadians(angle)));
-//
-//        Log.i("bruhAngleRelative", String.valueOf(poseRelativeToLL.getRotation().getDegrees()));
-//        Pose2d poseRelativeToBot = botToLimelight.transformBy(poseRelativeToLL);
-//        Log.i("bruhAngleAbsolute", String.valueOf(poseRelativeToBot.getRotation().getDegrees()));
-//        telemetry.addData("bruhAngleAbsolute", poseRelativeToBot.getRotation().getDegrees());
-
-            double cameraRadians = botToLimelight.getRotation().getRadians();
-
-            double forwardBotRelative = Math.cos(cameraRadians) * forward + Math.sin(cameraRadians) * right + botToLimelight.getY();
-
-            double rightBotRelative = -Math.sin(cameraRadians) * forward + Math.cos(cameraRadians) * right + botToLimelight.getX();
 
 
-            Pose2d poseRelativeToBot = new Pose2d(rightBotRelative, forwardBotRelative, new Rotation2d(Math.toRadians(angle)));
+            Rotation2d rotationRelativeToBot = new Rotation2d(Math.toRadians(angle));
+            telemetry.addData("Rotation stuff", rotationRelativeToBot);
 
-            poses.add(poseRelativeToBot);
+            if (ID != 22) {
+                poses.add(rotationRelativeToBot);
+            }
         }
 
         if(poses.size()<=0){
             return Optional.empty();
         }
+        telemetry.addData("Rotation List", poses);
 
-        Pose2d best = new Pose2d();
+
+        Rotation2d best = new Rotation2d();
         double lowestX = Double.MAX_VALUE;
-        for (Pose2d pose : poses){
-//            if(Math.abs(pose.getX())>SecondaryArmSubsystem.secondaryArmLength-0.5){
-//                score+=99999;
-//            }
 
-        }
+        telemetry.addData("Rotation Pose", poses.get(0));
+        telemetry.addData("Random Rotation", Rotation2d.fromDegrees(45));
 
-        return Optional.of(best);
+
+        return Optional.of(poses.get(0));
     }
+
+    public double getRotationAngle(){
+        if(getRotation().isPresent()) {
+            return getRotation().get().getDegrees();
+        }
+        return 0;
+    }
+
+//    public double getTurretPosition(){
+//        return turret.getDistance();
+//    }
+//    public double getTurretError(){
+//        return getTurretAngle()-getRotationAngle();
+//    }
+
+    public void setTargetVelocity(int velocity){
+        targetAngle = velocity;
+    }
+
+//    public double getTurretAngle(){
+//        return turret.getDistance() / TICKS_PER_REVTURRET * 360 * 20/95; //divided by resolution multiplied by 360 an then multiply by gear ratio
+//    }
 
     public void pauseLimelight(boolean pause){
         if(pause){

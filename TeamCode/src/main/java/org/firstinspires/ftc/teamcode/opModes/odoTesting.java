@@ -42,7 +42,7 @@ public class odoTesting extends AutoBase {
                 new InstantCommand(() -> driveSubsystem.driveToPoint(startingPosTest)),
 
 
-                new DriveToPointCommand(driveSubsystem, new Pose2d(0, 0,Rotation2d.fromDegrees(90)),3, 5).withTimeout(2000)
+                new DriveToPointCommand(driveSubsystem, new Pose2d(10, 10,Rotation2d.fromDegrees(90)),3, 5).withTimeout(2000)
 
 
                 //wait
