@@ -305,15 +305,17 @@ public abstract class Robot extends CommandOpMode {
          */
 
        //pinpoint.setOffsets(73.66, 162.56); //these are tuned for 3110-0002-0001 Product Insight #1
-        pinpoint.setOffsets(-7.3,-12.7);
+        pinpoint.setOffsets(0,-5.275);
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
         the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
         If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
         number of ticks per mm of your odometry pod.
          */
-//       pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-       pinpoint.setEncoderResolution(15.0313);
+       pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+
+
+//        pinpoint.setEncoderResolution(15.0313);
 
         //odo.setEncoderResolution(13.26291192);
 

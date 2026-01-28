@@ -23,9 +23,9 @@ public class PosGlobals {
 
 
 
-    public static Pose2d BLUEFIELD = new Pose2d(140.8, -130.8, Rotation2d.fromDegrees(0));
+    public static Pose2d BLUEFIELD = new Pose2d(55.433, -51.5, Rotation2d.fromDegrees(0));
 
-    public static Pose2d REDFIELD = new Pose2d(140.8, 130.8, Rotation2d.fromDegrees(0));
+    public static Pose2d REDFIELD = new Pose2d(55.433, 51.5, Rotation2d.fromDegrees(0));
 
     public static Pose2d startingPosLeft = new Pose2d(startLeftX, startLeftY, Rotation2d.fromDegrees(0));
     public static Pose2d startingRedBack = new Pose2d(178.75, 13, Rotation2d.fromDegrees(0));
