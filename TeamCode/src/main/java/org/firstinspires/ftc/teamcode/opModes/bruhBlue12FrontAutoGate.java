@@ -71,13 +71,13 @@ public class bruhBlue12FrontAutoGate extends Robot {
 //                new DriveToPointCommand(driveSubsystem, redShootFrontStraight, 5, 2),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(closeRPM))
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(2300))
                         ),
                         //shooting first row
                         new DriveToPointCommand(driveSubsystem, blueShootFront, 5, 2)
                 ),
                 //shoot
-                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,closeRPM),
+                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,2300),
                 new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
 
 
@@ -101,7 +101,7 @@ public class bruhBlue12FrontAutoGate extends Robot {
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(closeRPM))
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(2300))
                         ),
                 //shooting first row
                         new SequentialCommandGroup(
@@ -121,7 +121,7 @@ public class bruhBlue12FrontAutoGate extends Robot {
                 ),
 //                new WaitCommand(300),
 
-                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,closeRPM),
+                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,2300),
                 new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
 
                 //intake second row
@@ -141,7 +141,7 @@ public class bruhBlue12FrontAutoGate extends Robot {
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(closeRPM)),
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(2300)),
                                 new WaitCommand(500),
                                     new InstantCommand(() -> shooterSubsystem.turretOn())
                         ),
@@ -150,7 +150,7 @@ public class bruhBlue12FrontAutoGate extends Robot {
                 ),
 //                new WaitCommand(300),
 
-                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,closeRPM),
+                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,2300),
                 new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
 
 
@@ -172,7 +172,7 @@ public class bruhBlue12FrontAutoGate extends Robot {
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(closeRPM)),
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(2300)),
                                 new WaitCommand(500),
                                 new InstantCommand(() -> shooterSubsystem.turretOn())
 
@@ -182,7 +182,7 @@ public class bruhBlue12FrontAutoGate extends Robot {
                 ),
 //                new WaitCommand(300),
 //                new WaitCommand(500),
-                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,closeRPM),
+                new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem,0,2300),
                 new DriveToPointCommand(driveSubsystem, new Pose2d(6, -17, Rotation2d.fromDegrees(45)), 5, 3),
                 new InstantCommand(()-> shooterSubsystem.turretOff())
 

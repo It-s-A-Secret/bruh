@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.commandGroups;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
@@ -9,10 +8,10 @@ import org.firstinspires.ftc.teamcode.commands.WaitForRPMCommand;
 import org.firstinspires.ftc.teamcode.subSystems.hIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subSystems.shooterSubsystem;
 
-public class ShootTime extends SequentialCommandGroup{
-    public ShootTime(shooterSubsystem shooterSubsystem, hIntakeSubsystem hIntakeSubsystem, int time, double targetRpm){
+public class ShootTimeAuto extends SequentialCommandGroup{
+    public ShootTimeAuto(shooterSubsystem shooterSubsystem, hIntakeSubsystem hIntakeSubsystem, int time, double targetRpm){
         addCommands(
-                new InstantCommand(()-> shooterSubsystem.setHoodFar()),
+                new InstantCommand(()-> shooterSubsystem.setHoodFarAuto()),
 
                 new InstantCommand(() -> shooterSubsystem.setTargetRPM(targetRpm)),
                 new InstantCommand(()-> hIntakeSubsystem.gateOpen()),

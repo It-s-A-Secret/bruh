@@ -7,14 +7,11 @@ import static org.firstinspires.ftc.teamcode.other.Globals.farRPM;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.blueBackFinish;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.blueShootBack;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.blueTurtleIntake;
-import static org.firstinspires.ftc.teamcode.other.PosGlobals.blueTurtleIntake2;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.blueTurtleIntakeReady;
-import static org.firstinspires.ftc.teamcode.other.PosGlobals.blueTurtleIntakeReady2;
+import static org.firstinspires.ftc.teamcode.other.PosGlobals.redBackFinish;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.redShootBack;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.redTurtleIntake;
-import static org.firstinspires.ftc.teamcode.other.PosGlobals.redTurtleIntake2;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.redTurtleIntakeReady;
-import static org.firstinspires.ftc.teamcode.other.PosGlobals.redTurtleIntakeReady2;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.startingBlueBack;
 import static org.firstinspires.ftc.teamcode.other.PosGlobals.startingRedBack;
 
@@ -30,7 +27,7 @@ import org.firstinspires.ftc.teamcode.commands.holdDTPosCommand;
 import org.firstinspires.ftc.teamcode.other.Robot;
 
 
-@Autonomous(name="bruhBlueBackTurtlewalkers")
+@Autonomous(name="bruhBlueBackHumanPlayer")
 public class bruhBlueBackTurtlewalkers extends Robot {
 
     @Override
@@ -77,7 +74,7 @@ public class bruhBlueBackTurtlewalkers extends Robot {
                 //getting first row
                 new ParallelCommandGroup(
                         new InstantCommand(() -> hIntakeSubsystem.gateClose()),
-                        new InstantCommand(() -> shooterSubsystem.turretOff()),
+//                        new InstantCommand(() -> shooterSubsystem.turretOff()),
                         new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady, 5, 5)
                 ),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
@@ -86,8 +83,7 @@ public class bruhBlueBackTurtlewalkers extends Robot {
 
 
                 new DriveToPointCommand(driveSubsystem, blueTurtleIntake, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady2, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, blueTurtleIntake2, 5, 5).withTimeout(1500),
+                        new WaitCommand(550),
 
 //                new WaitCommand(300),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
@@ -99,7 +95,9 @@ public class bruhBlueBackTurtlewalkers extends Robot {
                                 new WaitCommand(500),
                                 new InstantCommand(() -> shooterSubsystem.turretOn())
                                 ),
-                        new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2)
+                        new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2),
+                        new WaitCommand(500)
+
                         //shooting first row
 
 
@@ -110,7 +108,7 @@ public class bruhBlueBackTurtlewalkers extends Robot {
                 new InstantCommand(() -> hIntakeSubsystem.intakeReverse()),
                         new ParallelCommandGroup(
                                 new InstantCommand(() -> hIntakeSubsystem.gateClose()),
-                                new InstantCommand(() -> shooterSubsystem.turretOff()),
+//                                new InstantCommand(() -> shooterSubsystem.turretOff()),
                                 new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady, 5, 5)
                         ),
                         new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
@@ -119,8 +117,8 @@ public class bruhBlueBackTurtlewalkers extends Robot {
 
 
                         new DriveToPointCommand(driveSubsystem, blueTurtleIntake, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady2, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, blueTurtleIntake2, 5, 5).withTimeout(1500),
+                        new WaitCommand(550),
+
 
 
 //                new WaitCommand(300),
@@ -133,7 +131,9 @@ public class bruhBlueBackTurtlewalkers extends Robot {
                                         new WaitCommand(500),
                                         new InstantCommand(() -> shooterSubsystem.turretOn())
                                 ),
-                                new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2)
+                                new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2),
+                                new WaitCommand(500)
+
                                 //shooting first row
 
 
@@ -143,7 +143,7 @@ public class bruhBlueBackTurtlewalkers extends Robot {
 
                         new ParallelCommandGroup(
                                 new InstantCommand(() -> hIntakeSubsystem.gateClose()),
-                                new InstantCommand(() -> shooterSubsystem.turretOff()),
+//                                new InstantCommand(() -> shooterSubsystem.turretOff()),
                                 new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady, 5, 5)
                         ),
                         new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
@@ -152,8 +152,7 @@ public class bruhBlueBackTurtlewalkers extends Robot {
 
 
                         new DriveToPointCommand(driveSubsystem, blueTurtleIntake, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady2, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, blueTurtleIntake2, 5, 5).withTimeout(1500),
+                        new WaitCommand(550),
 
 
 //                new WaitCommand(300),
@@ -166,7 +165,77 @@ public class bruhBlueBackTurtlewalkers extends Robot {
                                         new WaitCommand(500),
                                         new InstantCommand(() -> shooterSubsystem.turretOn())
                                 ),
-                                new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2)
+                                new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2),
+                                new WaitCommand(500)
+
+                                //shooting first row
+
+
+                        ),
+//                new WaitCommand(300),
+
+                        new ShootTime(shooterSubsystem,hIntakeSubsystem,0,farRPM),
+//                new WaitCommand(300),
+
+                        new ParallelCommandGroup(
+                                new InstantCommand(() -> hIntakeSubsystem.gateClose()),
+//                                new InstantCommand(() -> shooterSubsystem.turretOff()),
+                                new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady, 5, 5)
+                        ),
+                        new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
+
+
+
+
+                        new DriveToPointCommand(driveSubsystem, blueTurtleIntake, 5, 5).withTimeout(1500),
+
+
+//                new WaitCommand(300),
+                        new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
+
+
+                        new ParallelCommandGroup(
+                                new SequentialCommandGroup(
+                                        new InstantCommand(() -> shooterSubsystem.setTargetRPM(farRPM)),
+                                        new WaitCommand(500),
+                                        new InstantCommand(() -> shooterSubsystem.turretOn())
+                                ),
+                                new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2),
+                                new WaitCommand(500)
+
+                                //shooting first row
+
+
+                        ),
+//                new WaitCommand(300),
+
+                        new ShootTime(shooterSubsystem,hIntakeSubsystem,0,farRPM),
+                        new ParallelCommandGroup(
+                                new InstantCommand(() -> hIntakeSubsystem.gateClose()),
+//                                new InstantCommand(() -> shooterSubsystem.turretOff()),
+                                new DriveToPointCommand(driveSubsystem, blueTurtleIntakeReady, 5, 5)
+                        ),
+                        new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
+
+
+
+
+                        new DriveToPointCommand(driveSubsystem, blueTurtleIntake, 5, 5).withTimeout(1500),
+
+
+//                new WaitCommand(300),
+                        new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
+
+
+                        new ParallelCommandGroup(
+                                new SequentialCommandGroup(
+                                        new InstantCommand(() -> shooterSubsystem.setTargetRPM(farRPM)),
+                                        new WaitCommand(500),
+                                        new InstantCommand(() -> shooterSubsystem.turretOn())
+                                ),
+                                new DriveToPointCommand(driveSubsystem, blueShootBack, 5, 2),
+                                new WaitCommand(500)
+
                                 //shooting first row
 
 
@@ -175,7 +244,7 @@ public class bruhBlueBackTurtlewalkers extends Robot {
 
                         new ShootTime(shooterSubsystem,hIntakeSubsystem,0,farRPM),
                         new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(()-> shooterSubsystem.turretOff()),
+                        new InstantCommand(()-> shooterSubsystem.turretOff()),
                         new DriveToPointCommand(driveSubsystem, blueBackFinish, 5, 5)
 
 

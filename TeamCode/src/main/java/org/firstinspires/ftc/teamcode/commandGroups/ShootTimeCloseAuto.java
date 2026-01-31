@@ -8,12 +8,12 @@ import org.firstinspires.ftc.teamcode.commands.WaitForRPMCommand;
 import org.firstinspires.ftc.teamcode.subSystems.hIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subSystems.shooterSubsystem;
 
-public class ShootTimeCloseTele extends SequentialCommandGroup{
-    public ShootTimeCloseTele(shooterSubsystem shooterSubsystem, hIntakeSubsystem hIntakeSubsystem, int time, double targetRpm){
+public class ShootTimeCloseAuto extends SequentialCommandGroup{
+    public ShootTimeCloseAuto(shooterSubsystem shooterSubsystem, hIntakeSubsystem hIntakeSubsystem, int time, double targetRpm){
         addCommands(
                 new InstantCommand(() -> shooterSubsystem.setTargetRPM(targetRpm)),
                 new InstantCommand(()-> hIntakeSubsystem.gateOpen()),
-                new InstantCommand(()-> shooterSubsystem.setHoodClose()),
+                new InstantCommand(()-> shooterSubsystem.setHoodCloseAuto()),
 
 
 //                new InstantCommand(()-> hIntakeSubsystem.stopperStop()),
@@ -21,7 +21,7 @@ public class ShootTimeCloseTele extends SequentialCommandGroup{
 //                new WaitCommand(    1000),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
 
-                new WaitCommand(1500),
+                new WaitCommand(1000),
                 new InstantCommand(()-> hIntakeSubsystem.intakeOff()),
 
 

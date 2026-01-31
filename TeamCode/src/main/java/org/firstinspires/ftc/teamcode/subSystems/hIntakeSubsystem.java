@@ -59,6 +59,9 @@ public class hIntakeSubsystem extends SubsystemBase {
     public void intakeOn(){
         intake.setPower(-1);
     }
+    public void intakeHalf(){
+        intake.setPower(-0.5);
+    }
     public void intakeOff(){
         intake.setPower(0);
     }

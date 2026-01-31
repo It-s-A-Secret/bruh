@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.commands.holdDTPosCommand;
 import org.firstinspires.ftc.teamcode.other.Robot;
 
 
-@Autonomous(name="bruhRedBackTurtlewalkers")
+@Autonomous(name="bruhRedBackHumanPlayer")
 public class bruhRedBackTurtlewalkers extends Robot {
 
     @Override
@@ -87,8 +87,7 @@ public class bruhRedBackTurtlewalkers extends Robot {
 
 
                 new DriveToPointCommand(driveSubsystem, redTurtleIntake, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, redTurtleIntakeReady2, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, redTurtleIntake2, 5, 5).withTimeout(1500),
+                        new WaitCommand(550),
 
 //                new WaitCommand(300),
                 new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
@@ -120,8 +119,8 @@ public class bruhRedBackTurtlewalkers extends Robot {
 
 
                         new DriveToPointCommand(driveSubsystem, redTurtleIntake, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, redTurtleIntakeReady2, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, redTurtleIntake2, 5, 5).withTimeout(1500),
+                        new WaitCommand(550),
+
 
 
 //                new WaitCommand(300),
@@ -153,8 +152,40 @@ public class bruhRedBackTurtlewalkers extends Robot {
 
 
                         new DriveToPointCommand(driveSubsystem, redTurtleIntake, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, redTurtleIntakeReady2, 5, 5).withTimeout(1500),
-                        new DriveToPointCommand(driveSubsystem, redTurtleIntake2, 5, 5).withTimeout(1500),
+                        new WaitCommand(550),
+
+
+//                new WaitCommand(300),
+                        new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
+
+
+                        new ParallelCommandGroup(
+                                new SequentialCommandGroup(
+                                        new InstantCommand(() -> shooterSubsystem.setTargetRPM(farRPM)),
+                                        new WaitCommand(500),
+                                        new InstantCommand(() -> shooterSubsystem.turretOn())
+                                ),
+                                new DriveToPointCommand(driveSubsystem, redShootBack, 5, 2)
+                                //shooting first row
+
+
+                        ),
+//                new WaitCommand(300),
+
+                        new ShootTime(shooterSubsystem,hIntakeSubsystem,0,farRPM),
+//                new WaitCommand(300),
+
+                        new ParallelCommandGroup(
+                                new InstantCommand(() -> hIntakeSubsystem.gateClose()),
+                                new InstantCommand(() -> shooterSubsystem.turretOff()),
+                                new DriveToPointCommand(driveSubsystem, redTurtleIntakeReady, 5, 5)
+                        ),
+                        new InstantCommand(() -> hIntakeSubsystem.intakeOn()),
+
+
+
+
+                        new DriveToPointCommand(driveSubsystem, redTurtleIntake, 5, 5).withTimeout(1500),
 
 
 //                new WaitCommand(300),
@@ -176,7 +207,7 @@ public class bruhRedBackTurtlewalkers extends Robot {
 
                         new ShootTime(shooterSubsystem,hIntakeSubsystem,0,farRPM),
                         new InstantCommand(() -> hIntakeSubsystem.intakeOff()),
-                new InstantCommand(()-> shooterSubsystem.turretOff()),
+                        new InstantCommand(()-> shooterSubsystem.turretOff()),
                         new DriveToPointCommand(driveSubsystem, redBackFinish, 5, 5)
 
 

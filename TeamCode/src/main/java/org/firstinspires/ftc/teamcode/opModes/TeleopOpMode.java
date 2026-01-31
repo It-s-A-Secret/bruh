@@ -169,7 +169,7 @@ public class TeleopOpMode extends Robot {
         );
 
         start1.whenPressed(
-                new InstantCommand(()-> shooterSubsystem.turretTuneTrue())
+                    new InstantCommand(()-> shooterSubsystem.turretTuneTrue())
                 );
         start1.whenReleased(
                 new SequentialCommandGroup(
@@ -178,16 +178,44 @@ public class TeleopOpMode extends Robot {
                 )
         );
         tLeft1.whenActive(
-                new InstantCommand(()-> shooterSubsystem.turretPower(500))
+                new ConditionalCommand(
+                        new InstantCommand(()-> shooterSubsystem.turretPower(500)),
+                        new SequentialCommandGroup(
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(closeRPM)),
+                                new InstantCommand(() -> shooterSubsystem.setHoodClose())
+                        ),
+                        () -> shooterSubsystem.turretTune()
+                        )
         );
         tLeft1.whenInactive(
-                new InstantCommand(()-> shooterSubsystem.turretPower(0))
+                new ConditionalCommand(
+                        new InstantCommand(()-> shooterSubsystem.turretPower(0)),
+                        new ShootTimeCloseTele(shooterSubsystem,hIntakeSubsystem, 10, closeRPM),
+                        () -> shooterSubsystem.turretTune()
+
+                )
         );
         tRight1.whenActive(
-                new InstantCommand(()-> shooterSubsystem.turretPower(-500))
+                new ConditionalCommand(
+                        new InstantCommand(()-> shooterSubsystem.turretPower(-500)),
+                        new SequentialCommandGroup(
+                                new InstantCommand(() -> shooterSubsystem.setTargetRPM(farRPM)),
+                                new InstantCommand(() -> shooterSubsystem.setHoodFar())
+                        ),
+                        () -> shooterSubsystem.turretTune()
+                )
         );
         tRight1.whenInactive(
-                new InstantCommand(()-> shooterSubsystem.turretPower(0))
+                new ConditionalCommand(
+                        new InstantCommand(()-> shooterSubsystem.turretPower(0)),
+                        new ShootTime(shooterSubsystem,hIntakeSubsystem, 10, farRPM),                        () -> shooterSubsystem.turretTune()
+
+                )        );
+        bLeft1.toggleWhenPressed(
+                new InstantCommand(()-> shooterSubsystem.turretOn()),
+                new InstantCommand(()-> shooterSubsystem.turretOff())
+
+
         );
 
 

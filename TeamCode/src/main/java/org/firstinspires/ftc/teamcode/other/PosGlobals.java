@@ -28,39 +28,43 @@ public class PosGlobals {
     public static Pose2d REDFIELD = new Pose2d(55.433, 51.5, Rotation2d.fromDegrees(0));
 
     public static Pose2d startingPosLeft = new Pose2d(startLeftX, startLeftY, Rotation2d.fromDegrees(0));
-    public static Pose2d startingRedBack = new Pose2d(178.75, 13, Rotation2d.fromDegrees(0));
+    public static Pose2d startingRedBack = new Pose2d(72, 6.16, Rotation2d.fromDegrees(0));
 
-    public static Pose2d startingRedFront = new Pose2d(-123.9, 84., Rotation2d.fromDegrees(-48));
+    public static Pose2d startingRedFront = new Pose2d(-49.427, 34.895, Rotation2d.fromDegrees(-49.5));
 
-    public static Pose2d redShootFront = new Pose2d(-8.5, 8.7, Rotation2d.fromDegrees(-44));
+    public static Pose2d redShootFront = new Pose2d(-10.8, 8.284, Rotation2d.fromDegrees(-46));
 
 
-    public static Pose2d redShootBack = new Pose2d(141.22, 8, Rotation2d.fromDegrees(0));
-    public static Pose2d redBackFinish = new Pose2d(141.22, 17, Rotation2d.fromDegrees(0));
-    public static Pose2d redFirstRowReady = new Pose2d(82.8, 27.75, Rotation2d.fromDegrees(-90));
-    public static Pose2d redFirstRowIntake = new Pose2d(84.85, 110.5, Rotation2d.fromDegrees(-90));
+    public static Pose2d redShootBack = new Pose2d(60.96, 8.83, Rotation2d.fromDegrees(0));
+    public static Pose2d redShootBackCheck = new Pose2d(52, 6.68, Rotation2d.fromDegrees(-90));
 
-    public static Pose2d redSecondRowReady = new Pose2d(27.3, 35.9, Rotation2d.fromDegrees(-90));
+    public static Pose2d redBackFinish = new Pose2d(54, 11, Rotation2d.fromDegrees(0));
+    public static Pose2d redThirdRowReady = new Pose2d(-12.885, 7.63, Rotation2d.fromDegrees(-90));
+    public static Pose2d redThirdRowIntake = new Pose2d(-12.585, 39.27, Rotation2d.fromDegrees(-90));
+
+    public static Pose2d redSecondRowReady = new Pose2d(12.54, 7.63, Rotation2d.fromDegrees(-90));
     public static Pose2d redSecondRowReadyCheckpoint = new Pose2d(28.5, 116.5, Rotation2d.fromDegrees(-90));
 
 
-    public static Pose2d redSecondRowIntake = new Pose2d(26.5, 110.5, Rotation2d.fromDegrees(-90));
+    public static Pose2d redSecondRowIntake = new Pose2d(12.54, 47.5, Rotation2d.fromDegrees(-90));
 
 
-    public static Pose2d redThirdRowReady = new Pose2d(-32.7, 14, Rotation2d.fromDegrees(-90));
-    public static Pose2d redThirdRowIntake = new Pose2d(-35.4, 92.5, Rotation2d.fromDegrees(-90));
+    public static Pose2d redFirstRowReady = new Pose2d(34.5, 7.63, Rotation2d.fromDegrees(-90));
+    public static Pose2d redFirstRowIntake = new Pose2d(34.5, 47.5, Rotation2d.fromDegrees(-90));
 
 
-    public static Pose2d redOpenGateCheckpoint = new Pose2d(-19.2, 80, Rotation2d.fromDegrees(-90));
+    public static Pose2d redOpenGateCheckpoint = new Pose2d(-4.73, 34.885, Rotation2d.fromDegrees(-90));
 
-    public static Pose2d redOpenGate = new Pose2d(-19.2, 97.8, Rotation2d.fromDegrees(-90));
-    public static Pose2d redOpenGateIntakeReady = new Pose2d(15.25, 97.5, Rotation2d.fromDegrees(-90));
-    public static Pose2d redOpenGateIntakeReadyCheckpoint = new Pose2d(15.25, 80, Rotation2d.fromDegrees(-90));
-    public static Pose2d redOpenGateIntake = new Pose2d(35.67, 109.6, Rotation2d.fromDegrees(-53.5));
+    public static Pose2d redOpenGate = new Pose2d(-4.73, 41.1, Rotation2d.fromDegrees(-90));
+    public static Pose2d redOpenGateIntakeReady = new Pose2d(5.54, 41.1, Rotation2d.fromDegrees(-90));
+    public static Pose2d redOpenGateIntakeReadyCheckpoint = new Pose2d(5.54, 12, Rotation2d.fromDegrees(-90));
+    public static Pose2d redOpenGateIntake = new Pose2d(23.46, 48, Rotation2d.fromDegrees(-42));
+    public static Pose2d redOpenGateIntakeFinish = new Pose2d(20.46, 48, Rotation2d.fromDegrees(-90));
 
-    public static Pose2d redTurtleIntakeReady = new Pose2d(146.6, 1.105, Rotation2d.fromDegrees(-90));
-    public static Pose2d redTurtleIntake = new Pose2d(151.7, 110.3, Rotation2d.fromDegrees(-90));
-    public static Pose2d redTurtleIntakeReady2 = new Pose2d(118, 78.5, Rotation2d.fromDegrees(-90));
+
+    public static Pose2d redTurtleIntakeReady = new Pose2d(60, 16.6, Rotation2d.fromDegrees(-90));
+    public static Pose2d redTurtleIntake = new Pose2d(60, 48, Rotation2d.fromDegrees(-90));
+    public static Pose2d redTurtleIntakeReady2 = new Pose2d(122, 78.5, Rotation2d.fromDegrees(-90));
     public static Pose2d redTurtleIntake2 = new Pose2d(122, 114, Rotation2d.fromDegrees(-90));
 
 
@@ -71,44 +75,42 @@ public class PosGlobals {
 
 
 
-    public static Pose2d startingBlueBack = new Pose2d(178.75, -13, Rotation2d.fromDegrees(0));
+    public static Pose2d startingBlueBack = new Pose2d(72, -6.16, Rotation2d.fromDegrees(0));
 
-    public static Pose2d startingBlueFront = new Pose2d(-123.9, -84., Rotation2d.fromDegrees(48));
+    public static Pose2d startingBlueFront = new Pose2d(-49.427, -34.895, Rotation2d.fromDegrees(50));
 
-    public static Pose2d blueShootFront = new Pose2d(-12.5, -8.7, Rotation2d.fromDegrees(44));
-
-
-    public static Pose2d blueShootBack = new Pose2d(141.22, -8, Rotation2d.fromDegrees(0));
-    public static Pose2d blueFirstRowReady = new Pose2d(84.8, -27.75, Rotation2d.fromDegrees(90));
-    public static Pose2d blueFirstRowIntake = new Pose2d(84.85, -110.5, Rotation2d.fromDegrees(90));
-
-    public static Pose2d blueSecondRowReady = new Pose2d(34.3, -20.9, Rotation2d.fromDegrees(90));
-    public static Pose2d blueSecondRowReadyCheckpoint = new Pose2d(34.5, -116.5, Rotation2d.fromDegrees(90));
+    public static Pose2d blueShootFront = new Pose2d(-10.8, -8.284, Rotation2d.fromDegrees(46));
 
 
-    public static Pose2d blueSecondRowIntake = new Pose2d(34.5, -110.5, Rotation2d.fromDegrees(90));
+    public static Pose2d blueShootBack = new Pose2d(60.96, -3.83, Rotation2d.fromDegrees(90));
+    public static Pose2d blueShootBackCheck = new Pose2d(52, -6.68, Rotation2d.fromDegrees(90));
+
+    public static Pose2d blueBackFinish = new Pose2d(54, -11, Rotation2d.fromDegrees(0));
+    public static Pose2d blueThirdRowReady = new Pose2d(-10.885, -7.63, Rotation2d.fromDegrees(90));
+    public static Pose2d blueThirdRowIntake = new Pose2d(-10.585, -39.27, Rotation2d.fromDegrees(90));
+
+    public static Pose2d blueSecondRowReady = new Pose2d(14.54, -7.63, Rotation2d.fromDegrees(90));
+    public static Pose2d blueSecondRowReadyCheckpoint = new Pose2d(28.5, -116.5, Rotation2d.fromDegrees(90));
 
 
-    public static Pose2d blueThirdRowReady = new Pose2d(-32.7, -14, Rotation2d.fromDegrees(90));
-    public static Pose2d blueThirdRowIntake = new Pose2d(-32.7, -90, Rotation2d.fromDegrees(90));
+    public static Pose2d blueSecondRowIntake = new Pose2d(14.54, -47.5, Rotation2d.fromDegrees(90));
 
 
-    public static Pose2d blueOpenGateCheckpoint = new Pose2d(-19.2, -70, Rotation2d.fromDegrees(90));
-
-    public static Pose2d blueOpenGate = new Pose2d(-19.2, -97.8, Rotation2d.fromDegrees(90));
-    public static Pose2d blueOpenGateIntakeReady = new Pose2d(15.25, -97.5, Rotation2d.fromDegrees(90));
-    public static Pose2d blueOpenGateIntakeReadyCheckpoint = new Pose2d(15.25, -80, Rotation2d.fromDegrees(90));
-    public static Pose2d blueOpenGateIntake = new Pose2d(35.67, -109.6, Rotation2d.fromDegrees(53.5));
-
-    public static Pose2d blueTurtleIntakeReady = new Pose2d(146.6, -1.105, Rotation2d.fromDegrees(90));
-    public static Pose2d blueTurtleIntake = new Pose2d(151.7, -110.3, Rotation2d.fromDegrees(90));
-    public static Pose2d blueTurtleIntakeReady2 = new Pose2d(118, -78.5, Rotation2d.fromDegrees(90));
-    public static Pose2d blueTurtleIntake2 = new Pose2d(122, -114, Rotation2d.fromDegrees(90));
-    public static Pose2d blueBackFinish = new Pose2d(141.22, -17, Rotation2d.fromDegrees(0));
+    public static Pose2d blueFirstRowReady = new Pose2d(37.01, -7.63, Rotation2d.fromDegrees(90));
+    public static Pose2d blueFirstRowIntake = new Pose2d(37.01, -47.5, Rotation2d.fromDegrees(90));
 
 
+    public static Pose2d blueOpenGateCheckpoint = new Pose2d(-2.73, -34.885, Rotation2d.fromDegrees(90));
+
+    public static Pose2d blueOpenGate = new Pose2d(-2.73, -41.1, Rotation2d.fromDegrees(90));
+    public static Pose2d blueOpenGateIntakeReady = new Pose2d(7.54, -41.1, Rotation2d.fromDegrees(90));
+    public static Pose2d blueOpenGateIntakeReadyCheckpoint = new Pose2d(7.54, -12, Rotation2d.fromDegrees(90));
+    public static Pose2d blueOpenGateIntake = new Pose2d(25.46, -48, Rotation2d.fromDegrees(42));
+    public static Pose2d blueOpenGateIntakeFinish = new Pose2d(22.46, -48, Rotation2d.fromDegrees(90));
 
 
+    public static Pose2d blueTurtleIntakeReady = new Pose2d(65, -16.6, Rotation2d.fromDegrees(90));
+    public static Pose2d blueTurtleIntake = new Pose2d(65, -48, Rotation2d.fromDegrees(90));
 
 
 }

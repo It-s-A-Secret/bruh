@@ -16,7 +16,7 @@ public class Globals {
    public static double farRPM = 3500;
 
 //drive to point
-    public static double translationKP = 0.008;
+    public static double translationKP = 0.016;
     public static final double translationKPprecise = 0.015;
     public static final double translationKPfast = 0.02*1.2;
 
@@ -39,8 +39,12 @@ public class Globals {
 
 
     public static double hoodClose = 0.1;
+    public static double hoodCloseAuto = 0.2;
 
-    public static double hoodFar = 0.6;
+
+    public static double hoodFar = 0.9;
+    public static double hoodFarBlueAuto = 0.1;
+
 
     public static double gateClose = 0.75;
 

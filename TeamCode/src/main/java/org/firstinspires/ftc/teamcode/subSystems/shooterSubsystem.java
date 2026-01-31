@@ -54,7 +54,7 @@ public class shooterSubsystem extends SubsystemBase {
 
     public boolean turretOn;
 
-    public boolean turretTune = false;
+    public static boolean turretTune = false;
 
     private static final int TICKS_PER_REVSHOOTER = 28;    private static final double TICKS_PER_REVTURRET = 103.8;
 
@@ -129,6 +129,10 @@ public class shooterSubsystem extends SubsystemBase {
         turretTune = false;
     }
 
+    public boolean turretTune(){
+        return turretTune;
+    }
+
 
 
 
@@ -168,8 +172,15 @@ public class shooterSubsystem extends SubsystemBase {
     public void setHoodClose(){
         hood.setPosition(Globals.hoodClose);
     }
+    public void setHoodCloseAuto(){
+        hood.setPosition(Globals.hoodCloseAuto);
+    }
+
     public void setHoodFar(){
         hood.setPosition(Globals.hoodFar);
+    }
+    public void setHoodFarAuto(){
+        hood.setPosition(Globals.hoodFarBlueAuto);
     }
 
     public void teamRed(){
