@@ -46,11 +46,11 @@ public class PosGlobals {
     public static Pose2d redSecondRowReadyCheckpoint = new Pose2d(28.5, 116.5, Rotation2d.fromDegrees(-90));
 
 
-    public static Pose2d redSecondRowIntake = new Pose2d(12.54, 47.5, Rotation2d.fromDegrees(-90));
+    public static Pose2d redSecondRowIntake = new Pose2d(12.54, 44, Rotation2d.fromDegrees(-90));
 
 
     public static Pose2d redFirstRowReady = new Pose2d(34.5, 7.63, Rotation2d.fromDegrees(-90));
-    public static Pose2d redFirstRowIntake = new Pose2d(34.5, 47.5, Rotation2d.fromDegrees(-90));
+    public static Pose2d redFirstRowIntake = new Pose2d(34.5, 44, Rotation2d.fromDegrees(-90));
 
 
     public static Pose2d redOpenGateCheckpoint = new Pose2d(-4.73, 34.885, Rotation2d.fromDegrees(-90));
@@ -63,7 +63,7 @@ public class PosGlobals {
 
 
     public static Pose2d redTurtleIntakeReady = new Pose2d(60, 16.6, Rotation2d.fromDegrees(-90));
-    public static Pose2d redTurtleIntake = new Pose2d(60, 48, Rotation2d.fromDegrees(-90));
+    public static Pose2d redTurtleIntake = new Pose2d(60, 45, Rotation2d.fromDegrees(-90));
     public static Pose2d redTurtleIntakeReady2 = new Pose2d(122, 78.5, Rotation2d.fromDegrees(-90));
     public static Pose2d redTurtleIntake2 = new Pose2d(122, 114, Rotation2d.fromDegrees(-90));
 
@@ -93,11 +93,11 @@ public class PosGlobals {
     public static Pose2d blueSecondRowReadyCheckpoint = new Pose2d(28.5, -116.5, Rotation2d.fromDegrees(90));
 
 
-    public static Pose2d blueSecondRowIntake = new Pose2d(14.54, -47.5, Rotation2d.fromDegrees(90));
+    public static Pose2d blueSecondRowIntake = new Pose2d(14.54, -45.5, Rotation2d.fromDegrees(90));
 
 
     public static Pose2d blueFirstRowReady = new Pose2d(37.01, -7.63, Rotation2d.fromDegrees(90));
-    public static Pose2d blueFirstRowIntake = new Pose2d(37.01, -47.5, Rotation2d.fromDegrees(90));
+    public static Pose2d blueFirstRowIntake = new Pose2d(37.01, -45.5, Rotation2d.fromDegrees(90));
 
 
     public static Pose2d blueOpenGateCheckpoint = new Pose2d(-2.73, -34.885, Rotation2d.fromDegrees(90));
@@ -110,7 +110,7 @@ public class PosGlobals {
 
 
     public static Pose2d blueTurtleIntakeReady = new Pose2d(65, -16.6, Rotation2d.fromDegrees(90));
-    public static Pose2d blueTurtleIntake = new Pose2d(65, -48, Rotation2d.fromDegrees(90));
+    public static Pose2d blueTurtleIntake = new Pose2d(65, -46, Rotation2d.fromDegrees(90));
 
 
 }
